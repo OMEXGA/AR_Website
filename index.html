@@ -7,7 +7,7 @@
   <meta name="description" content="เซียมซีออนไลน์ เขย่ามือถือเสี่ยงเซียมซี">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assestes/styles.css">
+  <link rel="stylesheet" href="assestes/styles.css?v=2">
   <script type="importmap">
     {
       "imports": {
@@ -644,9 +644,10 @@
           const center = box.getCenter(new THREE.Vector3());
           const size = box.getSize(new THREE.Vector3());
           
-          const sc = 1.8 / size.y; // Reduced size so it doesn't take up the whole screen
-          mesh.scale.setScalar(sc);
-          mesh.position.set(-center.x * sc, -center.y * sc - 0.3, -center.z * sc);
+          const baseScale = 1.8 / size.y; // Base size
+          mesh.userData.baseScale = baseScale;
+          mesh.scale.setScalar(baseScale * currentScale);
+          mesh.position.set(-center.x * baseScale, -center.y * baseScale - 0.3, -center.z * baseScale);
           
           scene.add(mesh);
           templeCache[num] = mesh;
@@ -656,13 +657,19 @@
       }
     }
 
-    // ===== Temple Rotation =====
+    // ===== Temple Rotation & Zoom =====
     let isDragging = false;
     let previousX = 0;
     let previousY = 0;
+    
+    let currentScale = 1.0;
+    const MIN_SCALE = 0.5;
+    const MAX_SCALE = 3.0;
+    let initialPinchDist = null;
+    let baseZoomScale = 1.0;
 
     containerWrapper.addEventListener('pointerdown', (e) => {
-      if (currentTemple && currentTemple.visible) {
+      if (currentTemple && currentTemple.visible && e.isPrimary) {
         isDragging = true;
         previousX = e.clientX;
         previousY = e.clientY;
@@ -670,7 +677,7 @@
     });
 
     window.addEventListener('pointermove', (e) => {
-      if (isDragging && currentTemple && currentTemple.visible) {
+      if (isDragging && currentTemple && currentTemple.visible && e.isPrimary) {
         const deltaX = e.clientX - previousX;
         const deltaY = e.clientY - previousY;
         
@@ -682,9 +689,45 @@
       }
     });
 
-    window.addEventListener('pointerup', () => {
-      isDragging = false;
+    window.addEventListener('pointerup', (e) => {
+      if (e.isPrimary) isDragging = false;
     });
+
+    // Touch pinch zoom
+    containerWrapper.addEventListener('touchstart', (e) => {
+      if (currentTemple && currentTemple.visible && e.touches.length === 2) {
+        initialPinchDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        baseZoomScale = currentScale;
+      }
+    }, {passive: true});
+
+    containerWrapper.addEventListener('touchmove', (e) => {
+      if (currentTemple && currentTemple.visible && e.touches.length === 2 && initialPinchDist) {
+        const dist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        currentScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, baseZoomScale * (dist / initialPinchDist)));
+        currentTemple.scale.setScalar(currentTemple.userData.baseScale * currentScale);
+      }
+    }, {passive: true});
+
+    containerWrapper.addEventListener('touchend', (e) => {
+      if (e.touches.length < 2) initialPinchDist = null;
+    });
+
+    // Desktop scroll zoom
+    containerWrapper.addEventListener('wheel', (e) => {
+      if (currentTemple && currentTemple.visible) {
+        e.preventDefault();
+        currentScale += e.deltaY * -0.002;
+        currentScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, currentScale));
+        currentTemple.scale.setScalar(currentTemple.userData.baseScale * currentScale);
+      }
+    }, {passive: false});
 
     // ===== Temple Info Sheet Logic =====
     const templeInfoSheet = $('templeInfoSheet');
@@ -773,6 +816,8 @@
         currentTemple.visible = false;
         currentTemple.rotation.x = 0; // reset rotation X
         currentTemple.rotation.y = 0; // reset rotation Y
+        currentScale = 1.0;
+        currentTemple.scale.setScalar(currentTemple.userData.baseScale);
         currentTemple = null;
       }
       templeActions.style.display = 'none';
