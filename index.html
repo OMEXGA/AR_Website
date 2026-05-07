@@ -93,8 +93,19 @@
   </div>
 
   <!-- Temple Actions -->
-  <div class="temple-actions" id="templeActions" style="display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 200;">
-    <button class="btn btn-primary" id="btnTempleAgain">เสี่ยงอีกครั้ง</button>
+  <div class="temple-actions" id="templeActions" style="display: none; position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 200;">
+    <button class="btn btn-primary" id="btnTempleAgain" style="transition: opacity 0.3s ease;">เสี่ยงอีกครั้ง</button>
+  </div>
+
+  <!-- Temple Info Sheet (Swipe up) -->
+  <div class="temple-info-sheet" id="templeInfoSheet">
+    <div class="sheet-drag-handle" id="sheetDragHandle"></div>
+    <div class="sheet-content">
+      <div class="popup-fortune-title" id="sheetTitle"></div>
+      <div class="popup-divider"></div>
+      <div class="popup-fortune-text" id="sheetText"></div>
+      <div class="popup-fortune-advice" id="sheetAdvice"></div>
+    </div>
   </div>
 
   <!-- Fortune Popup -->
@@ -582,7 +593,7 @@
       createSparkles();
       setTimeout(() => {
         if (fortune.num === 1 || fortune.num === 2) {
-          showTempleModel(fortune.num);
+          showTempleModel(fortune.num, fortune);
         } else {
           showPopup(fortune);
         }
@@ -607,13 +618,20 @@
     let currentTemple = null;
     const templeCache = {};
 
-    function showTempleModel(num) {
+    function showTempleModel(num, fortune) {
       physicsGroup.visible = false;
       stickNumberOverlay.classList.remove('visible');
       $('instruction').style.display = 'none';
       $('desktopTap').style.display = 'none';
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
+
+      // Populate and show the info sheet
+      $('sheetTitle').textContent = fortune.title;
+      $('sheetText').textContent = fortune.text;
+      $('sheetAdvice').textContent = `💡 ${fortune.advice}`;
+      $('templeInfoSheet').style.display = 'block';
+      toggleSheet(false);
 
       if (templeCache[num]) {
         currentTemple = templeCache[num];
@@ -668,6 +686,66 @@
       isDragging = false;
     });
 
+    // ===== Temple Info Sheet Logic =====
+    const templeInfoSheet = $('templeInfoSheet');
+    const sheetDragHandle = $('sheetDragHandle');
+    let sheetStartY = 0;
+    let sheetCurrentY = 0;
+    let isSheetDragging = false;
+
+    function toggleSheet(forceState) {
+      const isExpanded = forceState !== undefined ? forceState : !templeInfoSheet.classList.contains('expanded');
+      
+      if (isExpanded) {
+        templeInfoSheet.classList.add('expanded');
+        btnTempleAgain.style.opacity = '0';
+        btnTempleAgain.style.pointerEvents = 'none';
+        containerWrapper.classList.add('sheet-open');
+      } else {
+        templeInfoSheet.classList.remove('expanded');
+        btnTempleAgain.style.opacity = '1';
+        btnTempleAgain.style.pointerEvents = 'all';
+        containerWrapper.classList.remove('sheet-open');
+      }
+      templeInfoSheet.style.transform = '';
+    }
+
+    templeInfoSheet.addEventListener('touchstart', (e) => {
+      sheetStartY = e.touches[0].clientY;
+      sheetCurrentY = sheetStartY;
+      isSheetDragging = true;
+      templeInfoSheet.style.transition = 'none';
+    }, {passive: true});
+
+    templeInfoSheet.addEventListener('touchmove', (e) => {
+      if (!isSheetDragging) return;
+      sheetCurrentY = e.touches[0].clientY;
+      const deltaY = sheetCurrentY - sheetStartY;
+      const isExpanded = templeInfoSheet.classList.contains('expanded');
+      
+      if (!isExpanded && deltaY < 0) { // pulling up
+        templeInfoSheet.style.transform = `translateY(calc(100% - 40px + ${deltaY}px))`;
+      } else if (isExpanded && deltaY > 0) { // pushing down
+        templeInfoSheet.style.transform = `translateY(${deltaY}px)`;
+      }
+    }, {passive: true});
+
+    templeInfoSheet.addEventListener('touchend', (e) => {
+      if (!isSheetDragging) return;
+      isSheetDragging = false;
+      templeInfoSheet.style.transition = '';
+      const deltaY = sheetCurrentY - sheetStartY;
+      
+      if (Math.abs(deltaY) > 40) {
+        if (deltaY < 0) toggleSheet(true);
+        else toggleSheet(false);
+      } else {
+        templeInfoSheet.style.transform = '';
+      }
+    });
+
+    sheetDragHandle.addEventListener('click', () => toggleSheet());
+
     // ===== Popup =====
     function showPopup(fortune) {
       $('popupStickNum').textContent = `เซียมซี ใบที่ ${fortune.num}`;
@@ -698,6 +776,7 @@
         currentTemple = null;
       }
       templeActions.style.display = 'none';
+      $('templeInfoSheet').style.display = 'none';
       physicsGroup.visible = true;
       $('instruction').style.display = '';
       $('desktopTap').style.display = '';
