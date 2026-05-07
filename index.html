@@ -610,6 +610,8 @@
     function showTempleModel(num) {
       physicsGroup.visible = false;
       stickNumberOverlay.classList.remove('visible');
+      $('instruction').style.display = 'none';
+      $('desktopTap').style.display = 'none';
 
       if (templeCache[num]) {
         currentTemple = templeCache[num];
@@ -633,6 +635,29 @@
         });
       }
     }
+
+    // ===== Temple Rotation =====
+    let isDragging = false;
+    let previousX = 0;
+
+    containerWrapper.addEventListener('pointerdown', (e) => {
+      if (currentTemple && currentTemple.visible) {
+        isDragging = true;
+        previousX = e.clientX;
+      }
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (isDragging && currentTemple && currentTemple.visible) {
+        const deltaX = e.clientX - previousX;
+        currentTemple.rotation.y += deltaX * 0.015;
+        previousX = e.clientX;
+      }
+    });
+
+    window.addEventListener('pointerup', () => {
+      isDragging = false;
+    });
 
     // ===== Popup =====
     function showPopup(fortune) {
@@ -659,10 +684,13 @@
       hidePopup();
       if (currentTemple) {
         currentTemple.visible = false;
+        currentTemple.rotation.y = 0; // reset rotation
         currentTemple = null;
       }
       templeActions.style.display = 'none';
       physicsGroup.visible = true;
+      $('instruction').style.display = '';
+      $('desktopTap').style.display = '';
 
       setTimeout(() => {
         isRevealed = false; isShaking = false; shakeProgress = 0;
