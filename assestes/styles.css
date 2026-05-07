@@ -170,7 +170,7 @@ body::after {
   animation: fadeScaleIn 1.2s ease-out 0.3s both;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+  touch-action: none;
 }
 
 /* Three.js Canvas */

@@ -612,6 +612,7 @@
       stickNumberOverlay.classList.remove('visible');
       $('instruction').style.display = 'none';
       $('desktopTap').style.display = 'none';
+      document.body.style.overflow = 'hidden';
 
       if (templeCache[num]) {
         currentTemple = templeCache[num];
@@ -699,6 +700,7 @@
       physicsGroup.visible = true;
       $('instruction').style.display = '';
       $('desktopTap').style.display = '';
+      document.body.style.overflow = '';
 
       setTimeout(() => {
         isRevealed = false; isShaking = false; shakeProgress = 0;
