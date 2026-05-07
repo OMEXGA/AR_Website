@@ -639,19 +639,26 @@
     // ===== Temple Rotation =====
     let isDragging = false;
     let previousX = 0;
+    let previousY = 0;
 
     containerWrapper.addEventListener('pointerdown', (e) => {
       if (currentTemple && currentTemple.visible) {
         isDragging = true;
         previousX = e.clientX;
+        previousY = e.clientY;
       }
     });
 
     window.addEventListener('pointermove', (e) => {
       if (isDragging && currentTemple && currentTemple.visible) {
         const deltaX = e.clientX - previousX;
+        const deltaY = e.clientY - previousY;
+        
         currentTemple.rotation.y += deltaX * 0.015;
+        currentTemple.rotation.x += deltaY * 0.015;
+        
         previousX = e.clientX;
+        previousY = e.clientY;
       }
     });
 
@@ -684,7 +691,8 @@
       hidePopup();
       if (currentTemple) {
         currentTemple.visible = false;
-        currentTemple.rotation.y = 0; // reset rotation
+        currentTemple.rotation.x = 0; // reset rotation X
+        currentTemple.rotation.y = 0; // reset rotation Y
         currentTemple = null;
       }
       templeActions.style.display = 'none';
