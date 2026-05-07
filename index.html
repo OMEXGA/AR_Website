@@ -613,6 +613,7 @@
       $('instruction').style.display = 'none';
       $('desktopTap').style.display = 'none';
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
 
       if (templeCache[num]) {
         currentTemple = templeCache[num];
@@ -625,9 +626,9 @@
           const center = box.getCenter(new THREE.Vector3());
           const size = box.getSize(new THREE.Vector3());
           
-          const sc = 2.5 / size.y;
+          const sc = 1.8 / size.y; // Reduced size so it doesn't take up the whole screen
           mesh.scale.setScalar(sc);
-          mesh.position.set(-center.x * sc, -center.y * sc - 0.5, -center.z * sc);
+          mesh.position.set(-center.x * sc, -center.y * sc - 0.3, -center.z * sc);
           
           scene.add(mesh);
           templeCache[num] = mesh;
@@ -701,6 +702,7 @@
       $('instruction').style.display = '';
       $('desktopTap').style.display = '';
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
 
       setTimeout(() => {
         isRevealed = false; isShaking = false; shakeProgress = 0;
