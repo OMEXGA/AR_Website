@@ -92,6 +92,11 @@
     </div>
   </div>
 
+  <!-- Temple Actions -->
+  <div class="temple-actions" id="templeActions" style="display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 200;">
+    <button class="btn btn-primary" id="btnTempleAgain">เสี่ยงอีกครั้ง</button>
+  </div>
+
   <!-- Fortune Popup -->
   <div class="popup-overlay" id="popupOverlay">
     <div class="popup-card">
@@ -165,6 +170,8 @@
     const arToggle           = $('arToggle');
     const arCamPrompt        = $('arCamPrompt');
     const arError            = $('arError');
+    const templeActions      = $('templeActions');
+    const btnTempleAgain     = $('btnTempleAgain');
 
     // ===== Three.js Setup =====
     const canvas   = $('siamsiCanvas');
@@ -573,7 +580,13 @@
 
       setTimeout(() => stickNumberOverlay.classList.add('visible'), 1000);
       createSparkles();
-      setTimeout(() => showPopup(fortune), 2800);
+      setTimeout(() => {
+        if (fortune.num === 1 || fortune.num === 2) {
+          showTempleModel(fortune.num);
+        } else {
+          showPopup(fortune);
+        }
+      }, 2800);
     }
 
     function createSparkles() {
@@ -587,6 +600,37 @@
         s.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
         s.style.animationDelay = Math.random() * 0.3 + 's';
         sparkleBurst.appendChild(s);
+      }
+    }
+
+    // ===== Temple Loading =====
+    let currentTemple = null;
+    const templeCache = {};
+
+    function showTempleModel(num) {
+      physicsGroup.visible = false;
+      stickNumberOverlay.classList.remove('visible');
+
+      if (templeCache[num]) {
+        currentTemple = templeCache[num];
+        currentTemple.visible = true;
+        templeActions.style.display = 'flex';
+      } else {
+        loader.load(`assestes/temple${num}.glb`, (gltf) => {
+          const mesh = gltf.scene;
+          const box = new THREE.Box3().setFromObject(mesh);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          
+          const sc = 2.5 / size.y;
+          mesh.scale.setScalar(sc);
+          mesh.position.set(-center.x * sc, -center.y * sc - 0.5, -center.z * sc);
+          
+          scene.add(mesh);
+          templeCache[num] = mesh;
+          currentTemple = mesh;
+          templeActions.style.display = 'flex';
+        });
       }
     }
 
@@ -613,6 +657,13 @@
     // ===== Reset =====
     function resetGame() {
       hidePopup();
+      if (currentTemple) {
+        currentTemple.visible = false;
+        currentTemple = null;
+      }
+      templeActions.style.display = 'none';
+      physicsGroup.visible = true;
+
       setTimeout(() => {
         isRevealed = false; isShaking = false; shakeProgress = 0;
         shakeMeter.classList.remove('visible');
@@ -626,6 +677,7 @@
     }
 
     $('btnAgain').addEventListener('click', resetGame);
+    $('btnTempleAgain').addEventListener('click', resetGame);
     $('btnShare').addEventListener('click', () => {
       const msg = `🪷 เซียมซี: ${$('popupTitle').textContent}\n${$('popupText').textContent}`;
       if (navigator.share) navigator.share({ title: 'เซียมซี', text: msg }).catch(() => {});
