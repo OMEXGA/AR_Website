@@ -253,7 +253,7 @@
     scene.add(physicsGroup);
 
     // Load Container
-    loader.load('assestes/Container.glb', (gltf) => {
+    loader.load('assestes/3D_Model/Seam_Si/Container.glb', (gltf) => {
       const m = gltf.scene;
       m.rotation.y = -Math.PI / 2;
       const box    = new THREE.Box3().setFromObject(m);
@@ -268,7 +268,7 @@
 
     // Load 7 Sticks
     ['stick1','stick2','stick3','stick4','stick5','stick6','stick7'].forEach((name, i) => {
-      loader.load(`assestes/${name}.glb`, (gltf) => {
+      loader.load(`assestes/3D_Model/Seam_Si/${name}.glb`, (gltf) => {
         const mesh   = gltf.scene;
         const box    = new THREE.Box3().setFromObject(mesh);
         const center = box.getCenter(new THREE.Vector3());
@@ -650,7 +650,7 @@
         currentTemple.visible = true;
         templeActions.style.display = 'flex';
       } else {
-        loader.load(`assestes/temple${num}.glb`, (gltf) => {
+        loader.load(`assestes/3D_Model/Temple/temple${num}.glb`, (gltf) => {
           const mesh = gltf.scene;
           const box = new THREE.Box3().setFromObject(mesh);
           const center = box.getCenter(new THREE.Vector3());
