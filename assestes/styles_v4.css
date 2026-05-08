@@ -646,6 +646,21 @@ body:not(.ar-mode) .container-wrapper.temple-mode {
   display: none;
 }
 
+/* ===== Temple Actions ===== */
+.temple-actions {
+  position: relative;
+  z-index: 200;
+  margin-top: 15px;
+}
+
+body.ar-mode .temple-actions {
+  position: fixed;
+  bottom: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0;
+  pointer-events: all;
+}
 
 /* ===== Animations ===== */
 @keyframes fadeSlideDown {
