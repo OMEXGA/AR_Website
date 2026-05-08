@@ -7,7 +7,7 @@
   <meta name="description" content="เซียมซีออนไลน์ เขย่ามือถือเสี่ยงเซียมซี">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assestes/styles_v5.css">
+  <link rel="stylesheet" href="assestes/styles_v6.css">
   <script type="importmap">
     {
       "imports": {
@@ -92,7 +92,7 @@
 
       <!-- Temple Actions -->
       <div class="temple-actions" id="templeActions" style="display: none;">
-        <button class="btn btn-secondary" id="btnToggleMonk" style="display: none; transition: all 0.3s ease; white-space: nowrap; font-size: 0.95rem; padding: 12px 20px;">
+        <button class="btn btn-primary" id="btnToggleMonk" style="display: none; transition: all 0.3s ease; white-space: nowrap; font-size: 0.95rem; padding: 12px 20px;">
           <span class="icon">🙏</span> สักการะเกจิอาจารย์
         </button>
         <button class="btn btn-primary" id="btnTempleAgain" style="transition: opacity 0.3s ease; white-space: nowrap;">เสี่ยงอีกครั้ง</button>
@@ -164,7 +164,9 @@
         images: ['012.jpg', '1i66122158jl8r8chB3B3_W_640_0_R5_Q80.jpg', '6399352569fefc1fab8d0af2.jpg'],
         hasMonk: true,
         monkTitle: "หลวงปู่ศรี มหาวีโร",
-        monkText: "<b>เกิด:</b> วันที่ 10 พฤษภาคม พ.ศ. 2460 จังหวัดร้อยเอ็ด<br><b>มรณภาพ:</b> วันที่ 17 สิงหาคม พ.ศ. 2554 สิริอายุ 94 ปี<br><br><b>ประวัติโดยย่อ:</b> หลวงปู่ศรี มหาวีโร เป็นพระสายวิปัสสนากรรมฐาน ศิษย์สายหลวงปู่มั่น ภูริทัตโต มีชื่อเสียงด้านการปฏิบัติธรรมและความเคร่งครัดในพระธรรมวินัย เป็นผู้ก่อตั้งและพัฒนาวัดป่ากุงให้เป็นศูนย์กลางการปฏิบัติธรรมสำคัญของภาคอีสาน<br><br><b>เกียรติประวัติ:</b> ผู้ริเริ่มสร้างมหาเจดีย์หินทรายแห่งวัดป่ากุง หรือ “บุโรพุทโธแห่งอีสาน” และได้รับความเคารพศรัทธาจากพุทธศาสนิกชนทั่วประเทศ<blockquote style=\"margin-top: 20px; padding: 16px; background: rgba(212, 168, 67, 0.08); border-left: 4px solid var(--gold); border-radius: 8px; font-style: italic; font-size: 1.1rem; color: var(--gold-light); text-align: center; font-weight: bold; letter-spacing: 0.5px;\">“คนเราทุกข์ เพราะเอาของไม่เที่ยง มาเป็นของเที่ยง”</blockquote>"
+        monkText: "<b>เกิด:</b> วันที่ 10 พฤษภาคม พ.ศ. 2460 จังหวัดร้อยเอ็ด<br><b>มรณภาพ:</b> วันที่ 17 สิงหาคม พ.ศ. 2554 สิริอายุ 94 ปี<br><br><b>ประวัติโดยย่อ:</b> หลวงปู่ศรี มหาวีโร เป็นพระสายวิปัสสนากรรมฐาน ศิษย์สายหลวงปู่มั่น ภูริทัตโต มีชื่อเสียงด้านการปฏิบัติธรรมและความเคร่งครัดในพระธรรมวินัย เป็นผู้ก่อตั้งและพัฒนาวัดป่ากุงให้เป็นศูนย์กลางการปฏิบัติธรรมสำคัญของภาคอีสาน<br><br><b>เกียรติประวัติ:</b> ผู้ริเริ่มสร้างมหาเจดีย์หินทรายแห่งวัดป่ากุง หรือ “บุโรพุทโธแห่งอีสาน” และได้รับความเคารพศรัทธาจากพุทธศาสนิกชนทั่วประเทศ",
+        monkAdvice: "คนเราทุกข์ เพราะเอาของไม่เที่ยง มาเป็นของเที่ยง",
+        monkImages: ['1jrl5wrMon42141.jpg', '45.jpg', 'images.jpeg']
       },
       { 
         num: 2,  
@@ -702,6 +704,24 @@
 
     const getActiveModel = () => isMonkView ? currentMonk : currentTemple;
 
+    function renderGallery(num, isMonk, images) {
+      const gallery = $('sheetGallery');
+      gallery.innerHTML = '';
+      if (images && images.length > 0) {
+        images.forEach(img => {
+          const imgEl = document.createElement('img');
+          imgEl.src = isMonk ? `assestes/Picture/Monk${num}/${img}` : `assestes/Picture/Temple${num}/${img}`;
+          imgEl.loading = 'lazy';
+          imgEl.style.cursor = 'pointer';
+          imgEl.addEventListener('click', () => {
+            $('imageViewerImg').src = imgEl.src;
+            $('imageViewer').classList.add('visible');
+          });
+          gallery.appendChild(imgEl);
+        });
+      }
+    }
+
     btnToggleMonk.addEventListener('click', () => {
       if (!currentTemple || !monkCache[currentTempleNum]) return;
       
@@ -724,6 +744,8 @@
         // Update Info Sheet for Monk
         if (fortune.monkTitle) $('sheetTitle').textContent = fortune.monkTitle;
         if (fortune.monkText) $('sheetText').innerHTML = fortune.monkText;
+        if (fortune.monkAdvice) $('sheetAdvice').textContent = `💡 ${fortune.monkAdvice}`;
+        renderGallery(currentTempleNum, true, fortune.monkImages || fortune.images);
       } else {
         currentMonk.visible = false;
         currentTemple.visible = true;
@@ -738,6 +760,8 @@
         // Revert Info Sheet to Temple
         $('sheetTitle').textContent = fortune.title;
         $('sheetText').innerHTML = fortune.text;
+        $('sheetAdvice').textContent = `💡 ${fortune.advice}`;
+        renderGallery(currentTempleNum, false, fortune.images);
       }
     });
 
@@ -779,21 +803,7 @@
       $('sheetAdvice').textContent = `💡 ${fortune.advice}`;
       
       // Populate Gallery
-      const gallery = $('sheetGallery');
-      gallery.innerHTML = '';
-      if (fortune.images && fortune.images.length > 0) {
-        fortune.images.forEach(img => {
-          const imgEl = document.createElement('img');
-          imgEl.src = `assestes/Picture/Temple${num}/${img}`;
-          imgEl.loading = 'lazy';
-          imgEl.style.cursor = 'pointer';
-          imgEl.addEventListener('click', () => {
-            $('imageViewerImg').src = imgEl.src;
-            $('imageViewer').classList.add('visible');
-          });
-          gallery.appendChild(imgEl);
-        });
-      }
+      renderGallery(num, false, fortune.images);
 
       // Reset tabs
       document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
