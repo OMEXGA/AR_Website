@@ -92,7 +92,10 @@
 
       <!-- Temple Actions -->
       <div class="temple-actions" id="templeActions" style="display: none;">
-        <button class="btn btn-primary" id="btnTempleAgain" style="transition: opacity 0.3s ease;">เสี่ยงอีกครั้ง</button>
+        <button class="btn btn-secondary" id="btnToggleMonk" style="display: none; transition: all 0.3s ease; white-space: nowrap; font-size: 0.95rem; padding: 12px 20px;">
+          <span class="icon">🙏</span> สักการะเกจิอาจารย์
+        </button>
+        <button class="btn btn-primary" id="btnTempleAgain" style="transition: opacity 0.3s ease; white-space: nowrap;">เสี่ยงอีกครั้ง</button>
       </div>
     </div>
   </div>
@@ -158,7 +161,8 @@
         level: 5, 
         text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2535<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ศรี มหาวีโร<br><br><b>สิ่งน่าสนใจ:</b> มหาเจดีย์หินทรายขนาดใหญ่ที่จำลองแบบจากบุโรพุทโธ ประเทศอินโดนีเซีย ภายในประดิษฐานพระบรมสารีริกธาตุ และมีภาพแกะสลักพุทธประวัติรอบองค์เจดีย์<br><br><b>ประวัติโดยย่อ:</b> วัดป่ากุงเป็นวัดสำคัญของจังหวัดร้อยเอ็ด สร้างขึ้นตามแนวทางปฏิบัติธรรมสายวิปัสสนา โดยหลวงปู่ศรี มหาวีโร มีชื่อเสียงจากสถาปัตยกรรมเจดีย์หินทรายอันงดงาม จนได้รับฉายาว่า “บุโรพุทโธแห่งอีสาน” และเป็นทั้งสถานที่ท่องเที่ยวและปฏิบัติธรรมที่มีชื่อเสียงของภาคอีสาน",              
         advice: "วัดจำลองสถาปัตยกรรมระดับโลก ถ่ายรูปสวยงามมาก",
-        images: ['012.jpg', '1i66122158jl8r8chB3B3_W_640_0_R5_Q80.jpg', '6399352569fefc1fab8d0af2.jpg']
+        images: ['012.jpg', '1i66122158jl8r8chB3B3_W_640_0_R5_Q80.jpg', '6399352569fefc1fab8d0af2.jpg'],
+        hasMonk: true
       },
       { 
         num: 2,  
@@ -249,6 +253,7 @@
     const arCamPrompt        = $('arCamPrompt');
     const arError            = $('arError');
     const templeActions      = $('templeActions');
+    const btnToggleMonk      = $('btnToggleMonk');
     const btnTempleAgain     = $('btnTempleAgain');
 
     // ===== Three.js Setup =====
@@ -681,9 +686,45 @@
       }
     }
 
-    // ===== Temple Loading =====
+    // ===== Temple & Monk Loading =====
     let currentTemple = null;
+    let currentMonk = null;
+    let currentTempleNum = -1;
+    let isMonkView = false;
     const templeCache = {};
+    const monkCache = {};
+
+    const getActiveModel = () => isMonkView ? currentMonk : currentTemple;
+
+    btnToggleMonk.addEventListener('click', () => {
+      if (!currentTemple || !monkCache[currentTempleNum]) return;
+      
+      isMonkView = !isMonkView;
+      createSparkles();
+      
+      if (isMonkView) {
+        currentTemple.visible = false;
+        currentMonk = monkCache[currentTempleNum];
+        currentMonk.visible = true;
+        
+        currentMonk.rotation.y = 0;
+        currentMonk.rotation.x = 0;
+        currentScale = 1.0;
+        currentMonk.scale.setScalar(currentMonk.userData.baseScale);
+        
+        btnToggleMonk.innerHTML = '<span class="icon">🛕</span> กลับไปดูวัด';
+      } else {
+        currentMonk.visible = false;
+        currentTemple.visible = true;
+        
+        currentTemple.rotation.y = 0;
+        currentTemple.rotation.x = 0;
+        currentScale = 1.0;
+        currentTemple.scale.setScalar(currentTemple.userData.baseScale);
+        
+        btnToggleMonk.innerHTML = '<span class="icon">🙏</span> สักการะเกจิอาจารย์';
+      }
+    });
 
     function showTempleModel(num, fortune) {
       physicsGroup.visible = false;
@@ -692,6 +733,30 @@
       $('desktopTap').style.display = 'none';
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
+
+      currentTempleNum = num;
+      isMonkView = false;
+      btnToggleMonk.style.display = fortune.hasMonk ? 'flex' : 'none';
+      btnToggleMonk.innerHTML = '<span class="icon">🙏</span> สักการะเกจิอาจารย์';
+      
+      // Preload Monk model if needed
+      if (fortune.hasMonk && !monkCache[num]) {
+        loader.load(`assestes/3D_Model/Monk/monk${num}.glb`, (gltf) => {
+          const mesh = gltf.scene;
+          const box = new THREE.Box3().setFromObject(mesh);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          
+          const baseScale = 2.0 / size.y; // Make monk slightly larger
+          mesh.userData.baseScale = baseScale;
+          mesh.scale.setScalar(baseScale);
+          mesh.position.set(-center.x * baseScale, -center.y * baseScale - 0.2, -center.z * baseScale);
+          
+          mesh.visible = false;
+          scene.add(mesh);
+          monkCache[num] = mesh;
+        });
+      }
 
       // Populate and show the info sheet
       $('sheetTitle').textContent = fortune.title;
@@ -761,7 +826,8 @@
     let baseZoomScale = 1.0;
 
     containerWrapper.addEventListener('pointerdown', (e) => {
-      if (currentTemple && currentTemple.visible && e.isPrimary) {
+      const model = getActiveModel();
+      if (model && model.visible && e.isPrimary) {
         isDragging = true;
         previousX = e.clientX;
         previousY = e.clientY;
@@ -769,12 +835,13 @@
     });
 
     window.addEventListener('pointermove', (e) => {
-      if (isDragging && currentTemple && currentTemple.visible && e.isPrimary) {
+      const model = getActiveModel();
+      if (isDragging && model && model.visible && e.isPrimary) {
         const deltaX = e.clientX - previousX;
         const deltaY = e.clientY - previousY;
         
-        currentTemple.rotation.y += deltaX * 0.015;
-        currentTemple.rotation.x += deltaY * 0.015;
+        model.rotation.y += deltaX * 0.015;
+        model.rotation.x += deltaY * 0.015;
         
         previousX = e.clientX;
         previousY = e.clientY;
@@ -787,7 +854,8 @@
 
     // Touch pinch zoom
     containerWrapper.addEventListener('touchstart', (e) => {
-      if (currentTemple && currentTemple.visible && e.touches.length === 2) {
+      const model = getActiveModel();
+      if (model && model.visible && e.touches.length === 2) {
         initialPinchDist = Math.hypot(
           e.touches[0].clientX - e.touches[1].clientX,
           e.touches[0].clientY - e.touches[1].clientY
@@ -797,13 +865,14 @@
     }, {passive: true});
 
     containerWrapper.addEventListener('touchmove', (e) => {
-      if (currentTemple && currentTemple.visible && e.touches.length === 2 && initialPinchDist) {
+      const model = getActiveModel();
+      if (model && model.visible && e.touches.length === 2 && initialPinchDist) {
         const dist = Math.hypot(
           e.touches[0].clientX - e.touches[1].clientX,
           e.touches[0].clientY - e.touches[1].clientY
         );
         currentScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, baseZoomScale * (dist / initialPinchDist)));
-        currentTemple.scale.setScalar(currentTemple.userData.baseScale * currentScale);
+        model.scale.setScalar(model.userData.baseScale * currentScale);
       }
     }, {passive: true});
 
@@ -813,11 +882,12 @@
 
     // Desktop scroll zoom
     containerWrapper.addEventListener('wheel', (e) => {
-      if (currentTemple && currentTemple.visible) {
+      const model = getActiveModel();
+      if (model && model.visible) {
         e.preventDefault();
         currentScale += e.deltaY * -0.002;
         currentScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, currentScale));
-        currentTemple.scale.setScalar(currentTemple.userData.baseScale * currentScale);
+        model.scale.setScalar(model.userData.baseScale * currentScale);
       }
     }, {passive: false});
 
@@ -912,6 +982,16 @@
         currentTemple.scale.setScalar(currentTemple.userData.baseScale);
         currentTemple = null;
       }
+      if (currentMonk) {
+        currentMonk.visible = false;
+        currentMonk.rotation.x = 0;
+        currentMonk.rotation.y = 0;
+        currentMonk.scale.setScalar(currentMonk.userData.baseScale);
+        currentMonk = null;
+      }
+      isMonkView = false;
+      currentTempleNum = -1;
+      
       templeActions.style.display = 'none';
       $('templeInfoSheet').style.display = 'none';
       containerWrapper.classList.remove('temple-mode');

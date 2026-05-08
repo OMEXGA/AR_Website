@@ -651,6 +651,9 @@ body:not(.ar-mode) .container-wrapper.temple-mode {
   position: relative;
   z-index: 200;
   margin-top: 15px;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
 }
 
 body.ar-mode .temple-actions {
