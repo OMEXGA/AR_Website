@@ -7,7 +7,7 @@
   <meta name="description" content="เซียมซีออนไลน์ เขย่ามือถือเสี่ยงเซียมซี">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assestes/styles_v7.css">
+  <link rel="stylesheet" href="assestes/styles_v8.css">
   <script type="importmap">
     {
       "imports": {
@@ -643,12 +643,19 @@
       el.style.userSelect = 'none';
       el.style.webkitTouchCallout = 'none';
       el.addEventListener('touchend', (e) => {
-        if (e.target.closest('button') || e.target.closest('.temple-actions')) return;
+        const isTempleBtn = e.target.closest('.temple-actions');
+        const isOtherBtn = e.target.closest('button') && e.target.id !== 'btnTap';
+        
+        if (isTempleBtn || isOtherBtn) return;
+        
         e.preventDefault(); tappedByTouch = true; doTap();
         setTimeout(() => { tappedByTouch = false; }, 400);
       }, { passive: false });
       el.addEventListener('click', (e) => { 
-        if (e.target.closest('button') || e.target.closest('.temple-actions')) return;
+        const isTempleBtn = e.target.closest('.temple-actions');
+        const isOtherBtn = e.target.closest('button') && e.target.id !== 'btnTap';
+        
+        if (isTempleBtn || isOtherBtn) return;
         if (!tappedByTouch) doTap(); 
       });
     });
