@@ -306,7 +306,7 @@ body:not(.ar-mode) .container-wrapper.temple-mode {
 
 .popup-overlay.active {
   background: rgba(0, 0, 0, 0.75);
-  pointer-events: all;
+  pointer-events: auto;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -662,7 +662,7 @@ body.ar-mode .temple-actions {
   left: 50%;
   transform: translateX(-50%);
   margin-top: 0;
-  pointer-events: all;
+  pointer-events: auto;
 }
 
 /* ===== Animations ===== */
@@ -751,7 +751,7 @@ body.ar-mode .container-wrapper {
   max-width: none !important;
   max-height: none !important;
   min-height: 0 !important;
-  pointer-events: all;
+  pointer-events: auto;
 }
 
 /* Keep header pinned to top in AR */
@@ -798,7 +798,7 @@ body.ar-mode .desktop-tap-area {
   bottom: 24px;
   left: 0; right: 0;
   z-index: 15;
-  pointer-events: all;
+  pointer-events: auto;
   display: flex;
 }
 body.ar-mode .stick-number-overlay { z-index: 20; top: 18%; }
