@@ -636,10 +636,14 @@
       el.style.userSelect = 'none';
       el.style.webkitTouchCallout = 'none';
       el.addEventListener('touchend', (e) => {
+        if (e.target.closest('button') || e.target.closest('.temple-actions')) return;
         e.preventDefault(); tappedByTouch = true; doTap();
         setTimeout(() => { tappedByTouch = false; }, 400);
       }, { passive: false });
-      el.addEventListener('click', () => { if (!tappedByTouch) doTap(); });
+      el.addEventListener('click', (e) => { 
+        if (e.target.closest('button') || e.target.closest('.temple-actions')) return;
+        if (!tappedByTouch) doTap(); 
+      });
     });
 
     function doTap() {
