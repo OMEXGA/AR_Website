@@ -200,7 +200,14 @@
         advice: "ทำบุญสืบสานประเพณี จะช่วยหนุนนำชีวิตให้เจริญรุ่งเรือง",
         images: ['1mi0p224x8vn0e2ejCFEC_W_640_0_R5_Q80.jpg_.jpeg', '1mi0t224x8vn1q71wBE58_W_640_0_R5_Q80.jpg_.jpeg', 'oIFetmAbnE4E9hHgBEQAQzRfRDFglFIDArQCao~tplv-sdweummd6v-text-logo-v1-QG1pbnRyYXN0b3J5-q75.jpeg', 'oIQtnnEEWAykN9QK9qRRCfgIDfENFBAVPCAmoQ~tplv-sdweummd6v-text-logo-v1-QG1pbnRyYXN0b3J5-q75.jpeg']
       },
-      { num: 7,  title: "สมหวัง",         level: 4, text: "สิ่งที่ตั้งใจไว้จะสำเร็จ แต่ต้องอดทนและพยายาม",                          advice: "ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น" },
+      { 
+        num: 7,  
+        title: "วัดป่าโนนสวรรค์",         
+        level: 4, 
+        text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2480–2500<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่บุญเพ็ง กัปปโก<br><br><b>สิ่งน่าสนใจ:</b> วัดป่าสายธรรมยุต บรรยากาศเงียบสงบท่ามกลางธรรมชาติ เหมาะแก่การปฏิบัติธรรมและวิปัสสนากรรมฐาน<br><br><b>ประวัติโดยย่อ:</b> วัดป่าโนนสวรรค์เป็นวัดป่าสายกรรมฐานในจังหวัดร้อยเอ็ด ก่อตั้งขึ้นเพื่อเป็นสถานที่ปฏิบัติธรรมตามแนวพระป่าสายหลวงปู่มั่น ภูริทัตโต เน้นความเรียบง่าย สงบ และการเจริญวิปัสสนา เป็นที่เคารพศรัทธาของพุทธศาสนิกชนในพื้นที่และจังหวัดใกล้เคียง",                          
+        advice: "ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น",
+        images: ['001.jpg', '006.jpg', '20180402d41d8cd98f00b204e9800998ecf8427e103217.jpg', 'a-colourful-and-fanciful.jpg']
+      },
 
     ];
 
@@ -652,7 +659,7 @@
       setTimeout(() => stickNumberOverlay.classList.add('visible'), 1000);
       createSparkles();
       setTimeout(() => {
-        if (fortune.num >= 1 && fortune.num <= 6) {
+        if (fortune.num >= 1 && fortune.num <= 7) {
           showTempleModel(fortune.num, fortune);
         } else {
           showPopup(fortune);
