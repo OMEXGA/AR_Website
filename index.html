@@ -7,7 +7,7 @@
   <meta name="description" content="เซียมซีออนไลน์ เขย่ามือถือเสี่ยงเซียมซี">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assestes/styles_v3.css">
+  <link rel="stylesheet" href="assestes/styles_v4.css">
   <script type="importmap">
     {
       "imports": {
@@ -93,7 +93,7 @@
   </div>
 
   <!-- Temple Actions -->
-  <div class="temple-actions" id="templeActions" style="display: none; position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); z-index: 200;">
+  <div class="temple-actions" id="templeActions" style="display: none; position: fixed; bottom: 180px; left: 50%; transform: translateX(-50%); z-index: 200;">
     <button class="btn btn-primary" id="btnTempleAgain" style="transition: opacity 0.3s ease;">เสี่ยงอีกครั้ง</button>
   </div>
 
@@ -845,7 +845,7 @@
       const isExpanded = templeInfoSheet.classList.contains('expanded');
       
       if (!isExpanded && deltaY < 0) { // pulling up
-        templeInfoSheet.style.transform = `translateY(calc(100% - 130px + ${deltaY}px))`;
+        templeInfoSheet.style.transform = `translateY(calc(100% - 160px + ${deltaY}px))`;
       } else if (isExpanded && deltaY > 0) { // pushing down
         templeInfoSheet.style.transform = `translateY(${deltaY}px)`;
       }
