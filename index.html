@@ -192,7 +192,14 @@
         advice: "สัมผัสความสงบและสืบสานประเพณีพื้นถิ่นเพื่อเป็นสิริมงคล",
         images: ['images-2.jpeg', 'images.jpeg', 'o4BxAoJCNeiE9tFtXgIAOtEUJmgf9rj0ABdEKD~tplv-sdweummd6v-text-logo-v1-QGRyZWFtbWllLnNw-q75.jpeg']
       },
-      { num: 6,  title: "โชคลาภ",         level: 5, text: "มีโชคลาภเข้ามา อาจได้ลาภลอย ให้ทำบุญเสริมดวง",                          advice: "ให้เก็บรักษาทรัพย์สินให้ดี อย่าใจร้อนใช้จ่าย" },
+      { 
+        num: 6,  
+        title: "วัดท่าแสบง",         
+        level: 5, 
+        text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2450–2470<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ใหญ่ ภูริทัตโต<br><br><b>สิ่งน่าสนใจ:</b> พระอุโบสถศิลปะอีสาน พระพุทธรูปเก่าแก่ และบรรยากาศริมชุมชนแบบดั้งเดิม<br><br><b>ประวัติโดยย่อ:</b> วัดท่าแสบงเป็นวัดเก่าแก่ของชุมชนในจังหวัดร้อยเอ็ด มีความสำคัญด้านศาสนาและวัฒนธรรมท้องถิ่น ใช้เป็นศูนย์กลางในการประกอบพิธีกรรม งานบุญประเพณี และกิจกรรมของชาวบ้านในพื้นที่มาอย่างยาวนาน",                          
+        advice: "ทำบุญสืบสานประเพณี จะช่วยหนุนนำชีวิตให้เจริญรุ่งเรือง",
+        images: ['1mi0p224x8vn0e2ejCFEC_W_640_0_R5_Q80.jpg_.jpeg', '1mi0t224x8vn1q71wBE58_W_640_0_R5_Q80.jpg_.jpeg', 'oIFetmAbnE4E9hHgBEQAQzRfRDFglFIDArQCao~tplv-sdweummd6v-text-logo-v1-QG1pbnRyYXN0b3J5-q75.jpeg', 'oIQtnnEEWAykN9QK9qRRCfgIDfENFBAVPCAmoQ~tplv-sdweummd6v-text-logo-v1-QG1pbnRyYXN0b3J5-q75.jpeg']
+      },
       { num: 7,  title: "สมหวัง",         level: 4, text: "สิ่งที่ตั้งใจไว้จะสำเร็จ แต่ต้องอดทนและพยายาม",                          advice: "ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น" },
 
     ];
@@ -645,7 +652,7 @@
       setTimeout(() => stickNumberOverlay.classList.add('visible'), 1000);
       createSparkles();
       setTimeout(() => {
-        if (fortune.num >= 1 && fortune.num <= 5) {
+        if (fortune.num >= 1 && fortune.num <= 6) {
           showTempleModel(fortune.num, fortune);
         } else {
           showPopup(fortune);
