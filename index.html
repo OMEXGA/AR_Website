@@ -162,7 +162,9 @@
         text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2535<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ศรี มหาวีโร<br><br><b>สิ่งน่าสนใจ:</b> มหาเจดีย์หินทรายขนาดใหญ่ที่จำลองแบบจากบุโรพุทโธ ประเทศอินโดนีเซีย ภายในประดิษฐานพระบรมสารีริกธาตุ และมีภาพแกะสลักพุทธประวัติรอบองค์เจดีย์<br><br><b>ประวัติโดยย่อ:</b> วัดป่ากุงเป็นวัดสำคัญของจังหวัดร้อยเอ็ด สร้างขึ้นตามแนวทางปฏิบัติธรรมสายวิปัสสนา โดยหลวงปู่ศรี มหาวีโร มีชื่อเสียงจากสถาปัตยกรรมเจดีย์หินทรายอันงดงาม จนได้รับฉายาว่า “บุโรพุทโธแห่งอีสาน” และเป็นทั้งสถานที่ท่องเที่ยวและปฏิบัติธรรมที่มีชื่อเสียงของภาคอีสาน",              
         advice: "วัดจำลองสถาปัตยกรรมระดับโลก ถ่ายรูปสวยงามมาก",
         images: ['012.jpg', '1i66122158jl8r8chB3B3_W_640_0_R5_Q80.jpg', '6399352569fefc1fab8d0af2.jpg'],
-        hasMonk: true
+        hasMonk: true,
+        monkTitle: "หลวงปู่ศรี มหาวีโร",
+        monkText: "<b>เกิด:</b> วันที่ 10 พฤษภาคม พ.ศ. 2460 จังหวัดร้อยเอ็ด<br><b>มรณภาพ:</b> วันที่ 17 สิงหาคม พ.ศ. 2554 สิริอายุ 94 ปี<br><br><b>ประวัติโดยย่อ:</b> หลวงปู่ศรี มหาวีโร เป็นพระสายวิปัสสนากรรมฐาน ศิษย์สายหลวงปู่มั่น ภูริทัตโต มีชื่อเสียงด้านความเคร่งครัดในพระธรรมวินัยและการสอนปฏิบัติธรรม เป็นผู้ก่อตั้งและพัฒนาวัดป่ากุงให้เป็นศูนย์กลางศาสนาและการปฏิบัติธรรมของภาคอีสาน<br><br><b>เกียรติประวัติ:</b> เป็นผู้ริเริ่มสร้างมหาเจดีย์หินทราย “วัดป่ากุง” ซึ่งได้รับการยกย่องว่าเป็น “บุโรพุทโธแห่งอีสาน” และเป็นพระเกจิที่ประชาชนในภาคอีสานเคารพศรัทธาอย่างกว้างขวาง"
       },
       { 
         num: 2,  
@@ -699,6 +701,7 @@
     btnToggleMonk.addEventListener('click', () => {
       if (!currentTemple || !monkCache[currentTempleNum]) return;
       
+      const fortune = FORTUNES.find(f => f.num === currentTempleNum);
       isMonkView = !isMonkView;
       createSparkles();
       
@@ -713,6 +716,10 @@
         currentMonk.scale.setScalar(currentMonk.userData.baseScale);
         
         btnToggleMonk.innerHTML = '<span class="icon">🛕</span> กลับไปดูวัด';
+        
+        // Update Info Sheet for Monk
+        if (fortune.monkTitle) $('sheetTitle').textContent = fortune.monkTitle;
+        if (fortune.monkText) $('sheetText').innerHTML = fortune.monkText;
       } else {
         currentMonk.visible = false;
         currentTemple.visible = true;
@@ -723,6 +730,10 @@
         currentTemple.scale.setScalar(currentTemple.userData.baseScale);
         
         btnToggleMonk.innerHTML = '<span class="icon">🙏</span> สักการะเกจิอาจารย์';
+        
+        // Revert Info Sheet to Temple
+        $('sheetTitle').textContent = fortune.title;
+        $('sheetText').innerHTML = fortune.text;
       }
     });
 
