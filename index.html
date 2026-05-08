@@ -93,7 +93,7 @@
   </div>
 
   <!-- Temple Actions -->
-  <div class="temple-actions" id="templeActions" style="display: none; position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); z-index: 200;">
+  <div class="temple-actions" id="templeActions" style="display: none; position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%); z-index: 200;">
     <button class="btn btn-primary" id="btnTempleAgain" style="transition: opacity 0.3s ease;">เสี่ยงอีกครั้ง</button>
   </div>
 
@@ -655,6 +655,7 @@
       $('sheetText').innerHTML = fortune.text;
       $('sheetAdvice').textContent = `💡 ${fortune.advice}`;
       $('templeInfoSheet').style.display = 'block';
+      containerWrapper.classList.add('temple-mode');
       toggleSheet(false);
 
       if (templeCache[num]) {
@@ -791,7 +792,7 @@
       const isExpanded = templeInfoSheet.classList.contains('expanded');
       
       if (!isExpanded && deltaY < 0) { // pulling up
-        templeInfoSheet.style.transform = `translateY(calc(100% - 40px + ${deltaY}px))`;
+        templeInfoSheet.style.transform = `translateY(calc(100% - 75px + ${deltaY}px))`;
       } else if (isExpanded && deltaY > 0) { // pushing down
         templeInfoSheet.style.transform = `translateY(${deltaY}px)`;
       }
@@ -846,6 +847,7 @@
       }
       templeActions.style.display = 'none';
       $('templeInfoSheet').style.display = 'none';
+      containerWrapper.classList.remove('temple-mode');
       physicsGroup.visible = true;
       $('instruction').style.display = '';
       $('desktopTap').style.display = '';

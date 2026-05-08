@@ -178,6 +178,14 @@ body::after {
   transform: translateY(-25%);
 }
 
+/* Temple Frame (Non-AR mode) */
+body:not(.ar-mode) .container-wrapper.temple-mode {
+  border: 3px solid var(--gold-dark);
+  border-radius: 12px;
+  background: rgba(20, 10, 5, 0.4);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6), 0 0 0 1px var(--gold) inset;
+}
+
 /* Three.js Canvas */
 #siamsiCanvas {
   position: absolute;
@@ -354,7 +362,7 @@ body::after {
   border-radius: 24px 24px 0 0;
   padding: 12px 24px 40px;
   z-index: 250;
-  transform: translateY(calc(100% - 40px));
+  transform: translateY(calc(100% - 75px));
   transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   touch-action: pan-y;
   box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
@@ -376,7 +384,7 @@ body::after {
 }
 
 .sheet-drag-handle::after {
-  content: 'ดูคำทำนาย';
+  content: 'ดูข้อมูล';
   display: block;
   font-family: var(--font-display);
   font-size: 0.8rem;
