@@ -93,7 +93,7 @@
   </div>
 
   <!-- Temple Actions -->
-  <div class="temple-actions" id="templeActions" style="display: none; position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%); z-index: 200;">
+  <div class="temple-actions" id="templeActions" style="display: none; position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); z-index: 200;">
     <button class="btn btn-primary" id="btnTempleAgain" style="transition: opacity 0.3s ease;">เสี่ยงอีกครั้ง</button>
   </div>
 
@@ -102,9 +102,21 @@
     <div class="sheet-drag-handle" id="sheetDragHandle"></div>
     <div class="sheet-content">
       <div class="popup-fortune-title" id="sheetTitle"></div>
+      
+      <div class="sheet-tabs" id="sheetTabs">
+        <button class="sheet-tab active" data-tab="info">ข้อมูล</button>
+        <button class="sheet-tab" data-tab="gallery">รูปภาพ</button>
+      </div>
       <div class="popup-divider"></div>
-      <div class="popup-fortune-text" id="sheetText"></div>
-      <div class="popup-fortune-advice" id="sheetAdvice"></div>
+
+      <div class="sheet-tab-content active" id="tabInfo">
+        <div class="popup-fortune-text" id="sheetText"></div>
+        <div class="popup-fortune-advice" id="sheetAdvice"></div>
+      </div>
+      
+      <div class="sheet-tab-content" id="tabGallery">
+        <div class="gallery-grid" id="sheetGallery"></div>
+      </div>
     </div>
   </div>
 
@@ -128,6 +140,12 @@
     </div>
   </div>
 
+  <!-- Fullscreen Image Viewer -->
+  <div class="image-viewer-overlay" id="imageViewer">
+    <button class="image-viewer-close" id="imageViewerClose">✕</button>
+    <img id="imageViewerImg" src="" alt="Full size picture">
+  </div>
+
   <script type="module">
     import * as THREE from 'three';
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -139,30 +157,41 @@
         title: "วัดประชาคมวนาราม (วัดป่ากุง)",        
         level: 5, 
         text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2535<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ศรี มหาวีโร<br><br><b>สิ่งน่าสนใจ:</b> มหาเจดีย์หินทรายขนาดใหญ่ที่จำลองแบบจากบุโรพุทโธ ประเทศอินโดนีเซีย ภายในประดิษฐานพระบรมสารีริกธาตุ และมีภาพแกะสลักพุทธประวัติรอบองค์เจดีย์<br><br><b>ประวัติโดยย่อ:</b> วัดป่ากุงเป็นวัดสำคัญของจังหวัดร้อยเอ็ด สร้างขึ้นตามแนวทางปฏิบัติธรรมสายวิปัสสนา โดยหลวงปู่ศรี มหาวีโร มีชื่อเสียงจากสถาปัตยกรรมเจดีย์หินทรายอันงดงาม จนได้รับฉายาว่า “บุโรพุทโธแห่งอีสาน” และเป็นทั้งสถานที่ท่องเที่ยวและปฏิบัติธรรมที่มีชื่อเสียงของภาคอีสาน",              
-        advice: "วัดจำลองสถาปัตยกรรมระดับโลก ถ่ายรูปสวยงามมาก" 
+        advice: "วัดจำลองสถาปัตยกรรมระดับโลก ถ่ายรูปสวยงามมาก",
+        images: ['012.jpg', '1i66122158jl8r8chB3B3_W_640_0_R5_Q80.jpg', '6399352569fefc1fab8d0af2.jpg']
       },
       { 
         num: 2,  
         title: "วัดผาน้ำทิพย์เทพประสิทธิ์วนาราม",          
         level: 5, 
         text: "<b>ก่อตั้ง:</b> พ.ศ. 2518<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่คำพันธ์ โฆสปัญโญ<br><br><b>สิ่งน่าสนใจ:</b> พระมหาเจดีย์ชัยมงคล เจดีย์สีขาวทองขนาดใหญ่บนยอดเขา วิวธรรมชาติรอบวัด และบรรยากาศสงบเหมาะแก่การปฏิบัติธรรม<br><br><b>ประวัติโดยย่อ:</b> วัดผาน้ำทิพย์เทพประสิทธิ์วนาราม เป็นวัดป่าสายวิปัสสนาชื่อดังของจังหวัดร้อยเอ็ด ก่อตั้งโดยหลวงปู่คำพันธ์ โฆสปัญโญ มีชื่อเสียงจากพระมหาเจดีย์ชัยมงคลซึ่งเป็นศูนย์รวมศรัทธาของพุทธศาสนิกชน และเป็นสถานที่ท่องเที่ยวสำคัญของภาคอีสาน",                      
-        advice: "ไหว้พระมหาเจดีย์ชัยมงคลเพื่อเสริมสิริมงคลให้ชีวิตร่มเย็น" 
+        advice: "ไหว้พระมหาเจดีย์ชัยมงคลเพื่อเสริมสิริมงคลให้ชีวิตร่มเย็น",
+        images: ['DSC_0121.jpg', 'DSC_0129.jpg', 'RXbvDeHuSeKi1pqqi5NxoVOUTmUFd748y28c78OjA3J9ctykyJvktRtjWVMnYBSwNIGnO8VwTeVKAmOqiyvwSrIIX476ZOjhmEW12XWahUKqO3DoiL4KDkPdyoSLRFk6IXy_xj7pZPsE6OLy7FORgdiD2AJkfuZSHzG3RPzy6kTMlAl_E8-RAmqnA94qqGzR.jpeg', 'p-PwAMCYVJTINHzprKOlIalXGFM2aSuMCVovshXac7KkgnNQbwBWPbADjtVjvkD-grMIwmf9DJ7PHfL2taYU5H8B5W0cC12BhlbBaHWUM_Hg95NU41OdK1H-iAVYPV33y9e9WtjzSn--IAiCmzOn3LrDCfGUgPG86j1w-icwwkFRpwc_ryXEZw99QdZ-dzzD.jpeg']
       },
       { 
         num: 3,  
         title: "วัดกู่พระโกนา",          
         level: 4, 
         text: "<b>ก่อตั้ง:</b> สันนิษฐานว่าสร้างในสมัยขอมโบราณ ราวพุทธศตวรรษที่ 16–17<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ชม ฐานคุตโต<br><br><b>สิ่งน่าสนใจ:</b> ปราสาทอิฐศิลปะขอมโบราณ ลวดลายปูนปั้นโบราณที่ยังคงสภาพงดงาม และสถาปัตยกรรมแบบบาปวน<br><br><b>ประวัติโดยย่อ:</b> วัดกู่พระโกนาเป็นโบราณสถานสำคัญของจังหวัดร้อยเอ็ด สร้างขึ้นในสมัยอาณาจักรขอม เพื่อใช้เป็นศาสนสถานในศาสนาฮินดู ก่อนจะเปลี่ยนเป็นพุทธสถานในภายหลัง จุดเด่นคือปราสาทอิฐโบราณและลวดลายปูนปั้นที่หาชมได้ยาก ถือเป็นแหล่งเรียนรู้ทางประวัติศาสตร์และโบราณคดีที่สำคัญของภาคอีสาน",          
-        advice: "ขอให้ท่านร่มเย็นเป็นสุขและพบเจอแต่สิ่งดีงาม" 
+        advice: "ขอให้ท่านร่มเย็นเป็นสุขและพบเจอแต่สิ่งดีงาม",
+        images: ['104216498_869029413585148_1826287216346045801_n.jpg', '362238_0-1024x768.jpg', 'images.jpeg']
       },
       { 
         num: 4,  
         title: "วัดบูรพาภิราม",        
         level: 5, 
         text: "<b>ก่อตั้ง:</b> สร้างขึ้นในสมัยกรุงศรีอยุธยาตอนปลาย ประมาณ พ.ศ. 2318<br><b>เกจิอาจารย์ชื่อดัง:</b> พระราชพรหมจริยคุณ (หลวงพ่อใหญ่)<br><br><b>สิ่งน่าสนใจ:</b> พระพุทธรัตนมงคลมหามุนี หรือ “หลวงพ่อใหญ่” พระพุทธรูปปางประทานพรยืนที่สูงที่สุดแห่งหนึ่งในประเทศไทย สูงประมาณ 59 เมตร<br><br><b>ประวัติโดยย่อ:</b> วัดบูรพาภิรามเป็นวัดเก่าแก่คู่บ้านคู่เมืองร้อยเอ็ด มีความสำคัญทางศาสนาและวัฒนธรรม โดดเด่นด้วยองค์หลวงพ่อใหญ่ขนาดมหึมาที่เป็นสัญลักษณ์สำคัญของจังหวัด และเป็นสถานที่ศักดิ์สิทธิ์ที่ประชาชนให้ความเคารพศรัทธาอย่างมาก",                   
-        advice: "ขอให้หลวงพ่อใหญ่คุ้มครอง ปกปักรักษา และประทานพรให้สำเร็จสมหวัง" 
+        advice: "ขอให้หลวงพ่อใหญ่คุ้มครอง ปกปักรักษา และประทานพรให้สำเร็จสมหวัง",
+        images: ['18afe10a93654d35aac306496f1023a9.jpg', '1i6182224qqqo3beo6BD0_W_640_0_R5_Q80.jpg', '1i6702215andi0k8w3681_W_640_0_R5_Q80.jpg']
       },
-      { num: 5,  title: "มีอุปสรรค",      level: 2, text: "ระวังคนไม่จริงใจ อย่าไว้ใจง่ายเกินไป ให้ระมัดระวังตัว",                  advice: "ทำบุญไถ่ชีวิตสัตว์ จะช่วยเสริมดวงให้ดีขึ้น" },
+      { 
+        num: 5,  
+        title: "วัดบ้านสนามชัย",      
+        level: 4, 
+        text: "<b>ก่อตั้ง:</b> คาดว่าสร้างขึ้นในช่วงปลายสมัยรัตนโกสินทร์ตอนต้น ประมาณ พ.ศ. 2400–2450<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ทองอินทร์ กตปุญโญ<br><br><b>สิ่งน่าสนใจ:</b> พระอุโบสถแบบอีสาน ศิลปกรรมพื้นถิ่น และบรรยากาศวัดชนบทที่เงียบสงบ<br><br><b>ประวัติโดยย่อ:</b> วัดบ้านสนามชัยเป็นวัดสำคัญของชุมชนในอำเภอธวัชบุรี จังหวัดร้อยเอ็ด มีบทบาทเป็นศูนย์รวมจิตใจของชาวบ้าน และเป็นสถานที่ประกอบพิธีกรรมทางพุทธศาสนา รวมถึงงานบุญประเพณีท้องถิ่นของชาวอีสาน",                  
+        advice: "สัมผัสความสงบและสืบสานประเพณีพื้นถิ่นเพื่อเป็นสิริมงคล",
+        images: ['images-2.jpeg', 'images.jpeg', 'o4BxAoJCNeiE9tFtXgIAOtEUJmgf9rj0ABdEKD~tplv-sdweummd6v-text-logo-v1-QGRyZWFtbWllLnNw-q75.jpeg']
+      },
       { num: 6,  title: "โชคลาภ",         level: 5, text: "มีโชคลาภเข้ามา อาจได้ลาภลอย ให้ทำบุญเสริมดวง",                          advice: "ให้เก็บรักษาทรัพย์สินให้ดี อย่าใจร้อนใช้จ่าย" },
       { num: 7,  title: "สมหวัง",         level: 4, text: "สิ่งที่ตั้งใจไว้จะสำเร็จ แต่ต้องอดทนและพยายาม",                          advice: "ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น" },
 
@@ -616,7 +645,7 @@
       setTimeout(() => stickNumberOverlay.classList.add('visible'), 1000);
       createSparkles();
       setTimeout(() => {
-        if (fortune.num >= 1 && fortune.num <= 4) {
+        if (fortune.num >= 1 && fortune.num <= 5) {
           showTempleModel(fortune.num, fortune);
         } else {
           showPopup(fortune);
@@ -654,6 +683,30 @@
       $('sheetTitle').textContent = fortune.title;
       $('sheetText').innerHTML = fortune.text;
       $('sheetAdvice').textContent = `💡 ${fortune.advice}`;
+      
+      // Populate Gallery
+      const gallery = $('sheetGallery');
+      gallery.innerHTML = '';
+      if (fortune.images && fortune.images.length > 0) {
+        fortune.images.forEach(img => {
+          const imgEl = document.createElement('img');
+          imgEl.src = `assestes/Picture/Temple${num}/${img}`;
+          imgEl.loading = 'lazy';
+          imgEl.style.cursor = 'pointer';
+          imgEl.addEventListener('click', () => {
+            $('imageViewerImg').src = imgEl.src;
+            $('imageViewer').classList.add('visible');
+          });
+          gallery.appendChild(imgEl);
+        });
+      }
+
+      // Reset tabs
+      document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.sheet-tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelector('.sheet-tab[data-tab="info"]').classList.add('active');
+      $('tabInfo').classList.add('active');
+
       $('templeInfoSheet').style.display = 'block';
       containerWrapper.classList.add('temple-mode');
       toggleSheet(false);
@@ -792,7 +845,7 @@
       const isExpanded = templeInfoSheet.classList.contains('expanded');
       
       if (!isExpanded && deltaY < 0) { // pulling up
-        templeInfoSheet.style.transform = `translateY(calc(100% - 75px + ${deltaY}px))`;
+        templeInfoSheet.style.transform = `translateY(calc(100% - 130px + ${deltaY}px))`;
       } else if (isExpanded && deltaY > 0) { // pushing down
         templeInfoSheet.style.transform = `translateY(${deltaY}px)`;
       }
@@ -866,12 +919,43 @@
       }, 400);
     }
 
+    // ===== Tab Logic =====
+    document.querySelectorAll('.sheet-tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        // Expand sheet if it's currently only peeking
+        if (!templeInfoSheet.classList.contains('expanded')) {
+          toggleSheet(true);
+        }
+        
+        document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.sheet-tab-content').forEach(c => c.classList.remove('active'));
+        
+        tab.classList.add('active');
+        const target = tab.getAttribute('data-tab');
+        if (target === 'info') $('tabInfo').classList.add('active');
+        if (target === 'gallery') $('tabGallery').classList.add('active');
+      });
+    });
+
     $('btnAgain').addEventListener('click', resetGame);
     $('btnTempleAgain').addEventListener('click', resetGame);
     $('btnShare').addEventListener('click', () => {
       const msg = `🪷 เซียมซี: ${$('popupTitle').textContent}\n${$('popupText').textContent}`;
       if (navigator.share) navigator.share({ title: 'เซียมซี', text: msg }).catch(() => {});
       else navigator.clipboard.writeText(msg).then(() => alert('คัดลอกแล้ว!')).catch(() => {});
+    });
+
+    // ===== Image Viewer Logic =====
+    $('imageViewerClose').addEventListener('click', () => {
+      $('imageViewer').classList.remove('visible');
+      setTimeout(() => $('imageViewerImg').src = '', 300);
+    });
+
+    $('imageViewer').addEventListener('click', (e) => {
+      if (e.target === $('imageViewer')) {
+        $('imageViewer').classList.remove('visible');
+        setTimeout(() => $('imageViewerImg').src = '', 300);
+      }
     });
   </script>
 </body>
