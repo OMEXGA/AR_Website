@@ -420,10 +420,37 @@ body:not(.ar-mode) .container-wrapper.temple-mode {
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
   display: none;
   text-align: center;
+  max-height: 100vh;
+  overflow-y: hidden;
 }
 
 .temple-info-sheet.expanded {
   transform: translateY(0);
+  max-height: 85vh;
+}
+
+.sheet-content {
+  max-height: 75vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.sheet-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sheet-content::-webkit-scrollbar-track {
+  background: rgba(212, 168, 67, 0.1);
+  border-radius: 3px;
+}
+
+.sheet-content::-webkit-scrollbar-thumb {
+  background: rgba(212, 168, 67, 0.4);
+  border-radius: 3px;
+}
+
+.sheet-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 168, 67, 0.6);
 }
 
 .sheet-drag-handle {
@@ -1136,11 +1163,32 @@ body.ar-mode #arHint { display: block; }
 
 .sheet-tab-content {
   display: none;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 8px;
 }
 
 .sheet-tab-content.active {
   display: block;
   animation: fadeSlideUp 0.4s ease forwards;
+}
+
+.sheet-tab-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sheet-tab-content::-webkit-scrollbar-track {
+  background: rgba(212, 168, 67, 0.1);
+  border-radius: 3px;
+}
+
+.sheet-tab-content::-webkit-scrollbar-thumb {
+  background: rgba(212, 168, 67, 0.4);
+  border-radius: 3px;
+}
+
+.sheet-tab-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 168, 67, 0.6);
 }
 
 /* ===== Gallery Grid ===== */
