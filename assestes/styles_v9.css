@@ -416,7 +416,7 @@ body:not(.ar-mode) .container-wrapper.temple-mode {
   z-index: 250;
   transform: translateY(calc(100% - 160px));
   transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  touch-action: manipulation;
+  touch-action: pan-y;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
   display: none;
   text-align: center;
@@ -459,7 +459,11 @@ body:not(.ar-mode) .container-wrapper.temple-mode {
   background: rgba(212, 168, 67, 0.4);
   border-radius: 3px;
   margin: 0 auto 16px;
-  cursor: pointer;
+  cursor: grab;
+}
+
+.sheet-drag-handle:active {
+  cursor: grabbing;
 }
 
 .sheet-drag-handle::after {

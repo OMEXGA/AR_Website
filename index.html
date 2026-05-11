@@ -959,7 +959,8 @@
       templeInfoSheet.style.transform = '';
     }
 
-    templeInfoSheet.addEventListener('touchstart', (e) => {
+    // Only allow swipe from the drag handle
+    sheetDragHandle.addEventListener('touchstart', (e) => {
       const touch = e.touches[0];
       sheetStartY = touch.clientY;
       sheetCurrentY = sheetStartY;
@@ -967,24 +968,13 @@
       templeInfoSheet.style.transition = 'none';
     }, { passive: true });
 
-    templeInfoSheet.addEventListener('touchmove', (e) => {
+    sheetDragHandle.addEventListener('touchmove', (e) => {
       if (!isSheetDragging) return;
       
       const touch = e.touches[0];
       sheetCurrentY = touch.clientY;
       const deltaY = sheetCurrentY - sheetStartY;
       const isExpanded = templeInfoSheet.classList.contains('expanded');
-
-      // Get the scrollable content area
-      const activeTabContent = templeInfoSheet.querySelector('.sheet-tab-content.active');
-      const isContentScrollable = activeTabContent && activeTabContent.scrollHeight > activeTabContent.clientHeight;
-      const contentScrollTop = activeTabContent ? activeTabContent.scrollTop : 0;
-
-      // Allow natural scrolling if content is scrollable and not at top, or if swiping up
-      if (isExpanded && isContentScrollable && contentScrollTop > 0 && deltaY > 0) {
-        // Let content scroll naturally, don't drag
-        return;
-      }
 
       if (!isExpanded && deltaY < 0) { // pulling up
         e.preventDefault();
@@ -995,7 +985,7 @@
       }
     }, { passive: false });
 
-    templeInfoSheet.addEventListener('touchend', (e) => {
+    sheetDragHandle.addEventListener('touchend', (e) => {
       if (!isSheetDragging) return;
       isSheetDragging = false;
       templeInfoSheet.style.transition = '';
@@ -1009,6 +999,7 @@
       }
     });
 
+    // Click the handle to toggle
     sheetDragHandle.addEventListener('click', () => toggleSheet());
 
     // ===== Popup =====
