@@ -1271,3 +1271,70 @@ body.ar-mode #arHint { display: block; }
   background: var(--gold);
   color: var(--bg-dark);
 }
+
+/* ===== Sound Button ===== */
+.sound-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 50;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(212, 168, 67, 0.15);
+  border: 2px solid rgba(212, 168, 67, 0.4);
+  color: var(--gold-light);
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(212, 168, 67, 0.2);
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
+
+.sound-btn:hover {
+  background: rgba(212, 168, 67, 0.25);
+  border-color: var(--gold);
+  box-shadow: 0 6px 20px rgba(212, 168, 67, 0.4);
+  transform: scale(1.1);
+}
+
+.sound-btn:active {
+  transform: scale(0.95);
+}
+
+.sound-btn.playing {
+  background: rgba(212, 168, 67, 0.35);
+  border-color: var(--gold-light);
+  box-shadow: 0 0 20px rgba(212, 168, 67, 0.6);
+}
+
+.sound-btn.playing span {
+  animation: soundWave 1.2s ease-in-out infinite;
+}
+
+.sound-btn span {
+  display: block;
+}
+
+@keyframes soundWave {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Position in temple info sheet */
+.temple-info-sheet .sound-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}

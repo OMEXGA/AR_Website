@@ -108,6 +108,9 @@
   <!-- Temple Info Sheet (Swipe up) -->
   <div class="temple-info-sheet" id="templeInfoSheet">
     <div class="sheet-drag-handle" id="sheetDragHandle"></div>
+    <button class="sound-btn" id="btnSound" title="Toggle Sound">
+      <span>🔊</span>
+    </button>
     <div class="sheet-content">
       <div class="popup-fortune-title" id="sheetTitle"></div>
 
@@ -149,6 +152,9 @@
     <button class="image-viewer-close" id="imageViewerClose">✕</button>
     <img id="imageViewerImg" src="" alt="">
   </div>
+
+  <!-- Audio Element -->
+  <audio id="soundPlayer" style="display: none;"></audio>
 
   <script type="module">
     import * as THREE from 'three';
@@ -1110,7 +1116,61 @@
       else navigator.clipboard.writeText(msg).then(() => alert('คัดลอกแล้ว!')).catch(() => { });
     });
 
-    // ===== Image Viewer Logic =====
+    // ===== Sound Control =====
+    const soundPlayer = $('soundPlayer');
+    const btnSound = $('btnSound');
+    let currentFortuneNum = -1;
+    let isAudioPlaying = false;
+
+    // Toggle sound button - play/stop audio
+    btnSound.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentFortuneNum < 1 || currentFortuneNum > 7) return;
+      
+      if (isAudioPlaying) {
+        // Stop audio
+        soundPlayer.pause();
+        soundPlayer.currentTime = 0;
+        isAudioPlaying = false;
+        btnSound.classList.remove('playing');
+      } else {
+        // Play audio
+        const soundType = isMonkView ? 'monk' : 'temple';
+        const soundPath = `assestes/Sound/${soundType}/${soundType}${currentFortuneNum}.mp3`;
+        soundPlayer.src = soundPath;
+        soundPlayer.currentTime = 0;
+        soundPlayer.play().catch(err => console.warn('Sound play error:', err));
+        isAudioPlaying = true;
+        btnSound.classList.add('playing');
+      }
+    });
+
+    // Update audio state when sound ends
+    soundPlayer.addEventListener('ended', () => {
+      isAudioPlaying = false;
+      btnSound.classList.remove('playing');
+    });
+
+    // Update current fortune number when showing temple
+    const originalShowTempleModel = showTempleModel;
+    showTempleModel = function(num, fortune) {
+      currentFortuneNum = num;
+      isAudioPlaying = false;
+      btnSound.classList.remove('playing');
+      soundPlayer.pause();
+      originalShowTempleModel(num, fortune);
+    };
+
+    // Update button visibility when resetting game
+    const originalResetGame = resetGame;
+    resetGame = function() {
+      isAudioPlaying = false;
+      btnSound.classList.remove('playing');
+      soundPlayer.pause();
+      originalResetGame();
+    };
+
+    // Image Viewer Logic =====
     $('imageViewerClose').addEventListener('click', () => {
       $('imageViewer').classList.remove('visible');
       setTimeout(() => $('imageViewerImg').src = '', 300);
