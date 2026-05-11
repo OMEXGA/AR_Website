@@ -416,7 +416,7 @@ body:not(.ar-mode) .container-wrapper.temple-mode {
   z-index: 250;
   transform: translateY(calc(100% - 160px));
   transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  touch-action: pan-y;
+  touch-action: manipulation;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
   display: none;
   text-align: center;

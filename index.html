@@ -941,7 +941,6 @@
     let sheetStartY = 0;
     let sheetCurrentY = 0;
     let isSheetDragging = false;
-    let isDraggingHandle = false;
 
     function toggleSheet(forceState) {
       const isExpanded = forceState !== undefined ? forceState : !templeInfoSheet.classList.contains('expanded');
@@ -962,38 +961,43 @@
 
     templeInfoSheet.addEventListener('touchstart', (e) => {
       const touch = e.touches[0];
-      const target = e.target.closest('.sheet-drag-handle');
-      isDraggingHandle = target !== null;
-      
       sheetStartY = touch.clientY;
       sheetCurrentY = sheetStartY;
-      
-      // Only set dragging if we're actually on the drag handle
-      if (isDraggingHandle) {
-        isSheetDragging = true;
-        templeInfoSheet.style.transition = 'none';
-      }
+      isSheetDragging = true;
+      templeInfoSheet.style.transition = 'none';
     }, { passive: true });
 
     templeInfoSheet.addEventListener('touchmove', (e) => {
-      if (!isSheetDragging || !isDraggingHandle) return;
+      if (!isSheetDragging) return;
       
-      sheetCurrentY = e.touches[0].clientY;
+      const touch = e.touches[0];
+      sheetCurrentY = touch.clientY;
       const deltaY = sheetCurrentY - sheetStartY;
       const isExpanded = templeInfoSheet.classList.contains('expanded');
 
+      // Get the scrollable content area
+      const activeTabContent = templeInfoSheet.querySelector('.sheet-tab-content.active');
+      const isContentScrollable = activeTabContent && activeTabContent.scrollHeight > activeTabContent.clientHeight;
+      const contentScrollTop = activeTabContent ? activeTabContent.scrollTop : 0;
+
+      // Allow natural scrolling if content is scrollable and not at top, or if swiping up
+      if (isExpanded && isContentScrollable && contentScrollTop > 0 && deltaY > 0) {
+        // Let content scroll naturally, don't drag
+        return;
+      }
+
       if (!isExpanded && deltaY < 0) { // pulling up
+        e.preventDefault();
         templeInfoSheet.style.transform = `translateY(calc(100% - 160px + ${deltaY}px))`;
       } else if (isExpanded && deltaY > 0) { // pushing down - limit to not go above 15vh from top
         const limitedDelta = Math.min(deltaY, window.innerHeight * 0.85);
         templeInfoSheet.style.transform = `translateY(${limitedDelta}px)`;
       }
-    }, { passive: true });
+    }, { passive: false });
 
     templeInfoSheet.addEventListener('touchend', (e) => {
-      if (!isSheetDragging || !isDraggingHandle) return;
+      if (!isSheetDragging) return;
       isSheetDragging = false;
-      isDraggingHandle = false;
       templeInfoSheet.style.transition = '';
       const deltaY = sheetCurrentY - sheetStartY;
 
