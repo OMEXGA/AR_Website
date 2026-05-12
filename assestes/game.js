@@ -767,6 +767,9 @@ function hideGuide() {
 }
 
 function resetGuideState() {
+  const guide = $('modelGuide');
+  if (guide.guideTimeout) clearTimeout(guide.guideTimeout);
+  guide.classList.remove('visible');
   guideVisible = false;
   guideHidden = false;
 }
