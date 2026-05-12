@@ -1,0 +1,1057 @@
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+// ===== Fortune Data =====
+const FORTUNES = [
+  {
+    num: 1,
+    title: "วัดประชาคมวนาราม (วัดป่ากุง)",
+    level: 5,
+    text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2535<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ศรี มหาวีโร<br><br><b>สิ่งน่าสนใจ:</b> มหาเจดีย์หินทรายขนาดใหญ่ที่จำลองแบบจากบุโรพุทโธ ประเทศอินโดนีเซีย ภายในประดิษฐานพระบรมสารีริกธาตุ และมีภาพแกะสลักพุทธประวัติรอบองค์เจดีย์<br><br><b>ประวัติโดยย่อ:</b> วัดป่ากุงเป็นวัดสำคัญ of จังหวัดร้อยเอ็ด สร้างขึ้นตามแนวทางปฏิบัติธรรมสายวิปัสสนา โดยหลวงปู่ศรี มหาวีโร มีชื่อเสียงจากสถาปัตยกรรมเจดีย์หินทรายอันงดงาม จนได้รับฉายาว่า “บุโรพุทโธแห่งอีสาน” และเป็นทั้งสถานที่ท่องเที่ยวและปฏิบัติธรรมที่มีชื่อเสียงของภาคอีสาน",
+    advice: "วัดจำลองสถาปัตยกรรมระดับโลก ถ่ายรูปสวยงามมาก",
+    images: ['012.jpg', '1i66122158jl8r8chB3B3_W_640_0_R5_Q80.jpg', '6399352569fefc1fab8d0af2.jpg'],
+    hasMonk: true,
+    monkTitle: "พระเทพวิสุทธิมงคล (หลวงปู่ศรี มหาวีโร)",
+    monkText: "<b>เกิด:</b> 3 พฤษภาคม พ.ศ. 2460 ณ อ.ปทุมรัตต์ จ.ร้อยเอ็ด<br><b>มรณภาพ:</b> 16 สิงหาคม พ.ศ. 2554 (สิริอายุ 94 ปี พรรษา 65)<br><br><b>ประวัติโดยย่อ:</b> อุปสมบทเมื่อปี พ.ศ. 2488 ท่านเป็นพระเถระฝ่ายวิปัสสนาธุระ (สายป่า) และเป็นศิษย์กรรมฐานรุ่นสำคัญของ หลวงปู่มั่น ภูริทัตโต ท่านเป็นพระผู้ปฏิบัติดีปฏิบัติชอบและมีจริยวัตรที่งดงาม เคร่งครัดในพระธรรมวินัย ท่านได้ก่อตั้งและดำรงตำแหน่งเจ้าอาวาสวัดประชาคมวนาราม (วัดป่ากุง) จ.ร้อยเอ็ด เป็นที่เคารพศรัทธาอย่างสูงของพุทธศาสนิกชนทั่วประเทศ<br><br><b>เกียรติประวัติและผลงานสำคัญ:</b> ได้รับพระราชทานสมณศักดิ์เป็นพระราชาคณะชั้นเทพที่ 'พระเทพวิสุทธิมงคล' (พ.ศ. 2545) เป็นผู้นำและองค์ประธานในการก่อสร้างปูชนียสถานยิ่งใหญ่ระดับประเทศ ได้แก่ พระมหาเจดีย์ชัยมงคล (อ.หนองพอก) และเจดีย์หินทราย วัดป่ากุง (จำลองจากบุโรพุทโธ) จังหวัดร้อยเอ็ด เพื่อสืบทอดและจรรโลงพระพุทธศาสนา",
+    monkAdvice: "สติ เป็นของสำคัญที่สุด ในการปฏิบัติธรรมหรือทำกิจการงานใดๆ ก็ตาม ถ้าขาดสติเสียแล้ว ทำอะไรก็ผิดพลาดไปหมด ให้พากันฝึกสติให้อยู่กับตัวทุกลมหายใจเข้าออก",
+    monkImages: ['1jrl5wrMon42141.jpg', '45.jpg', 'images.jpeg']
+  },
+  {
+    num: 2,
+    title: "วัดผาน้ำทิพย์เทพประสิทธิ์วนาราม",
+    level: 5,
+    text: "<b>ก่อตั้ง:</b> พ.ศ. 2518<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ทองอินทร์ กตปุญโญ<br><br><b>สิ่งน่าสนใจ:</b> พระมหาเจดีย์ชัยมงคล เจดีย์สีขาวทองขนาดใหญ่บนยอดเขา วิวธรรมชาติรอบวัด และบรรยากาศสงบเหมาะแก่การปฏิบัติธรรม<br><br><b>ประวัติโดยย่อ:</b> วัดผาน้ำทิพย์เทพประสิทธิ์วนาราม เป็นวัดป่าสายวิปัสสนาชื่อดังของจังหวัดร้อยเอ็ด ก่อตั้งโดยหลวงปู่คำพันธ์ โฆสปัญโญ มีชื่อเสียงจากพระมหาเจดีย์ชัยมงคลซึ่งเป็นศูนย์รวมศรัทธาของพุทธศาสนิกชน และเป็นสถานที่ท่องเที่ยวสำคัญของภาคอีสาน",
+    advice: "ไหว้พระมหาเจดีย์ชัยมงคลเพื่อเสริมสิริมงคลให้ชีวิตร่มเย็น",
+    images: ['DSC_0121.jpg', 'DSC_0129.jpg', 'RXbvDeHuSeKi1pqqi5NxoVOUTmUFd748y28c78OjA3J9ctykyJvktRtjWVMnYBSwNIGnO8VwTeVKAmOqiyvwSrIIX476ZOjhmEW12XWahUKqO3DoiL4KDkPdyoSLRFk6IXy_xj7pZPsE6OLy7FORgdiD2AJkfuZSHzG3RPzy6kTMlAl_E8-RAmqnA94qqGzR.jpeg', 'p-PwAMCYVJTINHzprKOlIalXGFM2aSuMCVovshXac7KkgnNQbwBWPbADjtVjvkD-grMIwmf9DJ7PHfL2taYU5H8B5W0cC12BhlbBaHWUM_Hg95NU41OdK1H-iAVYPV33y9e9WtjzSn--IAiCmzOn3LrDCfGUgPG86j1w-icwwkFRpwc_ryXEZw99QdZ-dzzD.jpeg'],
+    hasMonk: true,
+    monkTitle: "พระเทพวิสุทธิมงคล (หลวงปู่ศรี มหาวีโร)",
+    monkText: "<b>เกิด:</b> 3 พฤษภาคม พ.ศ. 2460 ณ อ.ปทุมรัตต์ จ.ร้อยเอ็ด<br><b>มรณภาพ:</b> 16 สิงหาคม พ.ศ. 2554 (สิริอายุ 94 ปี พรรษา 65)<br><br><b>ประวัติโดยย่อ:</b> ท่านเป็นผู้ริเริ่ม บุกเบิก และเป็นองค์ประธานในการสร้าง \"วัดผาน้ำทิพย์เทพประสิทธิ์วนาราม\" (ผาน้ำย้อย) ณ เทือกเขาเขียว อำเภอหนองพอก จังหวัดร้อยเอ็ด เดิมทีในอดีตบริเวณนี้เคยเป็นพื้นที่สีแดงที่มีความขัดแย้ง หลวงปู่ศรีได้เมตตาจาริกธุดงค์เข้าไปปักกลดปฏิบัติธรรม แผ่เมตตา จนเกิดความสงบร่มเย็น ผู้คนเกิดความเลื่อมใสศรัทธา จึงได้ร่วมใจกันถวายพื้นที่และพัฒนาสร้างเป็นสำนักปฏิบัติธรรมสายวิปัสสนากรรมฐานขึ้น<br><br><b>เกียรติประวัติและผลงานสำคัญ:</b> เป็นผู้นำและศูนย์รวมความศรัทธาอันมหาศาลในการก่อสร้าง \"พระมหาเจดีย์ชัยมงคล\" ณ วัดผาน้ำทิพย์ฯ เพื่อบรรจุพระบรมสารีริกธาตุ รังสรรค์ปูชนียสถานและสถาปัตยกรรมที่ยิ่งใหญ่ระดับประเทศ โดยออกแบบให้เจดีย์มีความกว้าง 101 เมตร ยาว 101 เมตร และสูง 101 เมตร (สอดคล้องกับชื่อจังหวัด) ซึ่งสำเร็จลุล่วงได้ด้วยบารมีธรรมและพลังศรัทธาของมหาชนที่ร่วมบริจาคโดยสมบูรณ์",
+    monkAdvice: "\"การสร้างเจดีย์ที่ใหญ่โตนี้ ไม่ใช่เพื่อประกาศเกียรติคุณของตนเอง แต่ทำเพื่อถวายเป็นพุทธบูชา เป็นที่ประดิษฐานพระบรมสารีริกธาตุ ให้เป็นที่กราบไหว้สักการะของเทวดาและมนุษย์ทั้งหลาย และเพื่อฝากไว้เป็นสมบัติของแผ่นดิน เป็นการสืบทอดอายุพระพุทธศาสนาให้เจริญรุ่งเรืองสืบไป\" — ปณิธานของหลวงปู่ศรี มหาวีโร",
+    monkImages: ['1jrl5wrMon42141.jpg', '45.jpg', 'images.jpeg']
+  },
+  {
+    num: 3,
+    title: "วัดกู่พระโกนา",
+    level: 4,
+    text: "<b>ก่อตั้ง:</b> สันนิษฐานว่าสร้างในสมัยขอมโบราณ ราวพุทธศตวรรษที่ 16–17<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ชม ฐานะธัมโม<br><br><b>สิ่งน่าสนใจ:</b> ปราสาทอิฐศิลปะขอมโบราณ ลวดลายปูนปั้นโบราณที่ยังคงสภาพงดงาม และสถาปัตยกรรมแบบบาปวน<br><br><b>ประวัติโดยย่อ:</b> วัดกู่พระโกนาเป็นโบราณสถานสำคัญของจังหวัดร้อยเอ็ด สร้างขึ้นในสมัยอาณาจักรขอม เพื่อใช้เป็นศาสนสถานในศาสนาฮินดู ก่อนจะเปลี่ยนเป็นพุทธสถานในภายหลัง จุดเด่นคือปราสาทอิฐโบราณและลวดลายปูนปั้นที่หาชมได้ยาก ถือเป็นแหล่งเรียนรู้ทางประวัติศาสตร์และโบราณคดีที่สำคัญของภาคอีสาน",
+    advice: "ขอให้ท่านร่มเย็นเป็นสุขและพบเจอแต่สิ่งดีงาม",
+    images: ['104216498_869029413585148_1826287216346045801_n.jpg', '362238_0-1024x768.jpg', 'images.jpeg'],
+    hasMonk: true,
+    monkTitle: "หลวงปู่ชม ฐานะธัมโม",
+    monkText: "<b>เกิด:</b> 15 พฤษภาคม พ.ศ. 2427 (ปีระกา) ณ คุ้มวัดกลาง อ.สุวรรณภูมิ จ.ร้อยเอ็ด<br><br><b>ประวัติโดยย่อ:</b> นามเดิม ชม จันทร์หนองสวง ในวัยหนุ่มเป็นคนกล้าหาญ ตรงไปตรงมา รักความยุติธรรม และชื่นชอบเครื่องรางของขลัง เมื่ออายุ 25 ปีแต่งงานมีครอบครัว ประกอบอาชีพทำนาและเป็น 'นายฮ้อย' ต้อนวัวควายไปขายตามแนวชายแดนเขมร เมื่ออายุ 34 ปี (วันที่ 15 กุมภาพันธ์ พ.ศ. 2461) ขออนุญาตภรรยาออกอุปสมบท ณ วัดกลาง อ.สุวรรณภูมิ โดยมีพระครูเหมถาพรมย์จารีเป็นพระอุปัชฌาย์ หลังบวชได้ 1 พรรษา ท่านได้ออกธุดงควัตรไปตามป่าเขาและแนวชายแดนอีสานใต้ เพื่อแสวงหาทางดับทุกข์และบำเพ็ญเพียร<br><br><b>เกียรติประวัติและผลงานสำคัญ:</b> จากการจาริกธุดงค์อย่างยาวนานตามแนวชายแดนเขตเขมร จ.อุบลราชธานี ศรีสะเกษ สุรินทร์ และบุรีรัมย์ ท่านได้ฝากตัวศึกษาจากครูบาอาจารย์หลายสำนัก จนมีความรู้ความสามารถโดดเด่นหลากหลายด้าน ทั้งเมตตามหานิยม คงกระพันชาตรี แคล้วคลาด มหาอุด รวมถึงการป้องกันและขับไล่คุณไสยต่างๆ",
+    monkAdvice: "ความดีที่ทำแล้ว ย่อมเป็นที่พึ่งของตนในภายหน้า",
+    monkImages: ['images.jpeg', 'luangpoochom-watgoopragona.jpg', 'unnamed.jpg']
+  },
+  {
+    num: 4,
+    title: "วัดบูรพาภิราม",
+    level: 5,
+    text: "<b>ก่อตั้ง:</b> สร้างขึ้นในสมัยกรุงศรีอยุธยาตอนปลาย ประมาณ พ.ศ. 2318<br><b>เกจิอาจารย์ชื่อดัง:</b> พระราชปรีชาญาณมุนี (พุทธา สิริวุฑฺโฒ)<br><br><b>สิ่งน่าสนใจ:</b> พระพุทธรัตนมงคลมหามุนี หรือ “หลวงพ่อใหญ่” พระพุทธรูปปางประทานพรยืนที่สูงที่สุดแห่งหนึ่งในประเทศไทย สูงประมาณ 59 เมตร<br><br><b>ประวัติโดยย่อ:</b> วัดบูรพาภิรามเป็นวัดเก่าแก่คู่บ้านคู่เมืองร้อยเอ็ด มีความสำคัญทางศาสนาและวัฒนธรรม โดดเด่นด้วยองค์หลวงพ่อใหญ่ขนาดมหึมาที่เป็นสัญลักษณ์สำคัญของจังหวัด และเป็นสถานที่ศักดิ์สิทธิ์ที่ประชาชนให้ความเคารพศรัทธาอย่างมาก",
+    advice: "ขอให้หลวงพ่อใหญ่คุ้มครอง ปกปักรักษา และประทานพรให้สำเร็จสมหวัง",
+    images: ['18afe10a93654d35aac306496f1023a9.jpg', '1i6182224qqqo3beo6BD0_W_640_0_R5_Q80.jpg', '1i6702215andi0k8w3681_W_640_0_R5_Q80.jpg'],
+    hasMonk: true,
+    monkTitle: "พระราชปรีชาญาณมุนี (พุทธา สิริวุฑฺโฒ ป.ธ.๔)",
+    monkText: "<b>เกิด:</b> 23 ตุลาคม พ.ศ. 2458<br><b>มรณภาพ:</b> พ.ศ. 2542<br><br><b>ประวัติโดยย่อ:</b> สังกัดคณะสงฆ์มหานิกาย ดำรงตำแหน่งอดีตเจ้าอาวาสวัดบูรพาภิราม (พระอารามหลวง) ตำบลในเมือง อำเภอเมืองร้อยเอ็ด จังหวัดร้อยเอ็ด และดำรงตำแหน่งอดีตเจ้าคณะจังหวัดร้อยเอ็ด ท่านเป็นพระมหาเถระผู้มีบทบาทสำคัญอย่างยิ่งในการบริหารกิจการคณะสงฆ์ การปกครอง และเป็นผู้นำศูนย์รวมจิตใจของพุทธศาสนิกชนชาวร้อยเอ็ดในการริเริ่มสร้าง \"พระพุทธรัตนมงคลมหามุนี\" (หลวงพ่อใหญ่)<br><br><b>เกียรติประวัติและลำดับสมณศักดิ์:</b><br>5 ธันวาคม พ.ศ. 2500: ได้รับพระราชทานสมณศักดิ์เป็นพระราชาคณะชั้นสามัญ ที่ \"พระสิริวุฒิเมธี\"<br>5 ธันวาคม พ.ศ. 2532: ได้รับพระราชทานสมณศักดิ์ขึ้นเป็นพระราชาคณะชั้นราช ที่ \"พระราชปรีชาญาณมุนี ศรีปริยัตยาทร มหาคณิสสร บวรสังฆาราม คามวาสี\"",
+    monkAdvice: "ดำเนินชีวิตด้วยศรัทธา การปฏิบัติตามพระธรรมและพระปฏิบัติจะนำให้ถึงความสำเร็จ",
+    monkImages: ['images.jpeg', '05Fab24-72ap-1000x800.jpg', '9.jpg']
+  },
+  {
+    num: 5,
+    title: "วัดบ้านสนามชัย",
+    level: 4,
+    text: "<b>ก่อตั้ง:</b> คาดว่าสร้างขึ้นในช่วงปลายสมัยรัตนโกสินทร์ตอนต้น ประมาณ พ.ศ. 2400–2450<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่อุดมทรัพย์ อุตฺตมธโน<br><br><b>สิ่งน่าสนใจ:</b> พระอุโบสถแบบอีสาน ศิลปกรรมพื้นถิ่น และบรรยากาศวัดชนบทที่เงียบสงบ<br><br><b>ประวัติโดยย่อ:</b> วัดบ้านสนามชัยเป็นวัดสำคัญของชุมชนในอำเภอธวัชบุรี จังหวัดร้อยเอ็ด มีบทบาทเป็นศูนย์รวมจิตใจของชาวบ้าน และเป็นสถานที่ประกอบพิธีกรรมทางพุทธศาสนา รวมถึงงานบุญประเพณีท้องถิ่นของชาวอีสาน",
+    advice: "สัมผัสความสงบและสืบสานประเพณีพื้นถิ่นเพื่อเป็นสิริมงคล",
+    images: ['images-2.jpeg', 'images.jpeg', 'o4BxAoJCNeiE9tFtXgIAOtEUJmgf9rj0ABdEKD~tplv-sdweummd6v-text-logo-v1-QGRyZWFtbWllLnNw-q75.jpeg'],
+    hasMonk: true,
+    monkTitle: "หลวงปู่อุดมทรัพย์ อุตฺตมธโน (นามเดิม: อุดมทรัพย์ ทะวาปี)",
+    monkText: "<b>เกิด:</b> 8 มิถุนายน พ.ศ. 2491 ณ บ้านดงน้อย ต.ปะโค อ.กุมภวาปี จ.อุดรธานี<br><b>มรณภาพ:</b> สิริอายุ 73 ปี 30 พรรษา<br><br><b>ประวัติโดยย่อ:</b> ก่อนเข้าสู่ร่มกาสาวพัสตร์ ท่านสำเร็จการศึกษาระดับ ปวส. (อนุปริญญา) จากมหาวิทยาลัยเกษตรกรรม จ.อุดรธานี และประกอบอาชีพหลากหลาย ทั้งรับราชการกรมการเกษตร และทำธุรกิจส่วนตัว ปัจจุบันท่านจำพรรษาอยู่ที่วัดบ้านสนามชัย จ.ร้อยเอ็ด<br><br><b>เกียรติประวัติและผลงานสำคัญ:</b> เป็นพระเถระผู้มีบทบาทในการดูแลและบริหารกิจการในพระพุทธศาสนา ณ วัดบ้านสนามชัย และเป็นประธานมูลนิธิหลวงปู่อุดมทรัพย์",
+    monkAdvice: "ความดีที่ทำไว้ ย่อมเป็นเกราะคุ้มครองตัวเรา ให้พ้นจากภัยอันตรายทั้งปวง",
+    monkImages: ['Ao_izard-9376-Medium.jpg', 'images.jpeg', 'images2.jpeg']
+  },
+  {
+    num: 6,
+    title: "วัดท่าสะแบง",
+    level: 5,
+    text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2450–2470<br><b>เกจิอาจารย์ชื่อดัง:</b> พระราชวัชราวิทยาคม (อนุสรณ์ ปภสฺสโร)<br><br><b>สิ่งน่าสนใจ:</b> พระอุโบสถศิลปะอีสาน พระพุทธรูปเก่าแก่ และบรรยากาศริมชุมชนแบบดั้งเดิม<br><br><b>ประวัติโดยย่อ:</b> วัดท่าสะแบงเป็นวัดเก่าแก่ของชุมชนในจังหวัดร้อยเอ็ด มีความสำคัญด้านศาสนาและวัฒนธรรมท้องถิ่น ใช้เป็นศูนย์กลางในการประกอบพิธีกรรม งานบุญประเพณี และกิจกรรมของชาวบ้านในพื้นที่มาอย่างยาวนาน ปัจจุบันมีชื่อเสียงอย่างมากจากบารมีของพระอาจารย์ต้อม",
+    advice: "ทำบุญสืบสานประเพณี จะช่วยหนุนนำชีวิตให้เจริญรุ่งเรือง",
+    images: ['1mi0p224x8vn0e2ejCFEC_W_640_0_R5_Q80.jpg_.jpeg', '1mi0t224x8vn1q71wBE58_W_640_0_R5_Q80.jpg_.jpeg', 'oIFetmAbnE4E9hHgBEQAQzRfRDFglFIDArQCao~tplv-sdweummd6v-text-logo-v1-QG1pbnRyYXN0b3J5-q75.jpeg', 'oIQtnnEEWAykN9QK9qRRCfgIDfENFBAVPCAmoQ~tplv-sdweummd6v-text-logo-v1-QG1pbnRyYXN0b3J5-q75.jpeg'],
+    hasMonk: true,
+    monkTitle: "พระราชวัชราวิทยาคม (อนุสรณ์ ปภสฺสโร) หรือ \"พระอาจารย์ต้อม วัดท่าสะแบง\"",
+    monkText: "<b>เกิด:</b> 20 สิงหาคม พ.ศ. 2524 ณ จ.ร้อยเอ็ด<br><b>สถานะ:</b> ปัจจุบันจำพรรษา ณ วัดท่าสะแบง จ.ร้อยเอ็ด<br><br><b>ประวัติโดยย่อ:</b> พระอาจารย์ต้อม เป็นพระเกจิอาจารย์รุ่นใหม่ที่มีชื่อเสียงโด่งดัง ท่านมีความสนใจในหลักธรรมและสรรพวิชาอาคมมาตั้งแต่เยาว์วัย ได้ออกจาริกธุดงค์และศึกษาวิทยาคมจากครูบาอาจารย์หลายสำนัก จนมีความเชี่ยวชาญทั้งด้านวิปัสสนากรรมฐานและพุทธาคม เป็นที่เคารพศรัทธาอย่างมากในปัจจุบัน<br><br><b>เกียรติประวัติและผลงานสำคัญ:</b> ได้รับพระราชทานสมณศักดิ์เป็นพระราชาคณะชั้นราชที่ \"พระราชวัชราวิทยาคม\" ท่านเป็นผู้นำในการพัฒนาวัดท่าสะแบงให้เจริญรุ่งเรืองอย่างก้าวกระโดด และมีเมตตาสนับสนุนงานด้านสาธารณประโยชน์ โรงพยาบาล และการศึกษาของชุมชนอย่างต่อเนื่อง",
+    monkAdvice: "ศรัทธาที่มั่นคง ย่อมนำพาไปสู่ความสำเร็จทั้งทางโลกและทางธรรม",
+    monkImages: ['พระราชวัชราวิทยาคม-อนุสรณ์-ปภสฺสโร.png', 'Clean-Website-Launch-Presentation-With-Mockups-1.jpeg', 'images.jpeg']
+  },
+  {
+    num: 7,
+    title: "วัดป่าโนนสวรรค์",
+    level: 4,
+    text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2500<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่คำปั่น จันทฺโชโต<br><br><b>สิ่งน่าสนใจ:</b> หรือที่รู้จักกันในชื่อ \"วัดหม้อดิน\" โดดเด่นด้วยประติมากรรมปูนปั้นแฝงธรรมะขนาดใหญ่ และการนำหม้อดินมาประดับตกแต่งศาสนสถานอย่างวิจิตรงดงาม<br><br><b>ประวัติโดยย่อ:</b> วัดป่าโนนสวรรค์เป็นพุทธสถานที่มีเอกลักษณ์เฉพาะตัว สร้างขึ้นจากแรงศรัทธาและนิมิตของหลวงปู่คำปั่น โดยมุ่งเน้นการสอนธรรมะผ่านงานศิลปะและสถาปัตยกรรมที่แปลกตา เป็นทั้งสถานที่ปฏิบัติธรรมและแหล่งท่องเที่ยวทางวัฒนธรรมที่สำคัญของจังหวัดร้อยเอ็ด",
+    advice: "เรียนรู้ธรรมะผ่านศิลปะ เพื่อยกระดับจิตใจให้สูงขึ้น",
+    images: ['001.jpg', '006.jpg', '20180402d41d8cd98f00b204e9800998ecf8427e103217.jpg', 'a-colourful-and-fanciful.jpg'],
+    hasMonk: true,
+    monkTitle: "หลวงปู่คำปั่น จันทฺโชโต (อดีตเจ้าอาวาสวัดป่าโนนสวรรค์)",
+    monkText: "<b>เกิด:</b> พ.ศ. 2487<br><b>มรณภาพ:</b> 17 ธันวาคม พ.ศ. 2563 (สิริอายุ 76 ปี)<br><br><b>ประวัติโดยย่อ:</b> ท่านเป็นผู้ริเริ่มและสร้างสรรค์พุทธสถานอันวิจิตรตระการตาจากนิมิต จนกลายเป็นที่รู้จักกันในนาม \"วัดหม้อดิน\" ท่านเชี่ยวชาญในสรรพวิชาอาคม และมีกุศโลบายอันแยบยลในการนำศิลปะมาประยุกต์ใช้เพื่อสอนธรรมะ<br><br><b>เกียรติประวัติและผลงานสำคัญ:</b> เป็นผู้สร้างตำนาน \"วัดหม้อดิน\" โดยนำหม้อดินซึ่งเป็นผลิตภัณฑ์ท้องถิ่นมาประดับตกแต่งศาสนสถาน และสร้างประติมากรรมแฝงธรรมะขนาดใหญ่ เช่น เจดีย์ประธานหลายชั้น และซุ้มประตูรูปปากหนุมาน ท่านยังเชี่ยวชาญวิทยาคม ทั้งวิชาธรรมเก้าโกฏิ และวิชาธรรมท้าวเวสสุวรรณ",
+    monkAdvice: "ธรรมะคือศิลปะแห่งการดำเนินชีวิต ให้หมั่นสร้างความดีและพัฒนาจิตใจให้ผ่องใสอยู่เสมอ",
+    monkImages: ['images.jpeg', 'images-2.jpeg', 'images-3.jpeg']
+  },
+
+];
+
+// ===== State =====
+let shakeProgress = 0;
+let isShaking = false;
+let isRevealed = false;
+let hasGyro = false;
+let lastAccel = { x: 0, y: 0, z: 0 };
+let isARMode = false;
+let arStream = null;
+const SHAKE_THRESHOLD = 12;
+const SHAKE_GOAL = 100;
+let guideVisible = false;
+let guideHidden = false;
+
+// ===== Stick Physics =====
+const physics = {
+  cupAngleLR: 0, cupAngleFB: 0.15,
+  cupVelLR: 0, cupVelFB: 0,
+  bundleX: 0, bundleZ: 0,
+  bundleVelX: 0, bundleVelZ: 0,
+  velX: 0, velZ: 0,
+  riseY: 0,
+  rising: false
+};
+
+// ===== DOM =====
+const $ = id => document.getElementById(id);
+const containerWrapper = $('containerWrapper');
+const stickNumber = $('stickNumber');
+const stickNumberOverlay = $('stickNumberOverlay');
+const shakeMeter = $('shakeMeter');
+const shakeMeterFill = $('shakeMeterFill');
+const popupOverlay = $('popupOverlay');
+const permissionScreen = $('permissionScreen');
+const sparkleBurst = $('sparkleBurst');
+const instruction = $('instruction');
+const arVideo = $('arVideo');
+const arToggle = $('arToggle');
+const arCamPrompt = $('arCamPrompt');
+const arError = $('arError');
+const templeActions = $('templeActions');
+const btnToggleMonk = $('btnToggleMonk');
+const btnTempleAgain = $('btnTempleAgain');
+
+// ===== Three.js Setup =====
+const canvas = $('siamsiCanvas');
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+camera.position.set(0, 0.18, 3.8);
+camera.lookAt(0, 0, 0);
+
+// Resize — dynamically scale the 3D model based on aspect ratio
+const resizeThree = () => {
+  const w = containerWrapper.offsetWidth;
+  const h = containerWrapper.offsetHeight;
+  if (!w || !h) return;
+  const dpr = Math.min(window.devicePixelRatio, 2);
+  renderer.setPixelRatio(dpr);
+  renderer.setSize(w, h, false);
+
+  const aspect = w / h;
+  camera.aspect = aspect;
+
+  // If the screen is tall (mobile), pull the camera further back so the cup isn't huge
+  if (aspect < 1) {
+    camera.position.z = 4.8 + (1 - aspect) * 6.0;
+    camera.position.y = 0.2 - (1 - aspect) * 0.2; // slight shift downwards
+  } else {
+    camera.position.z = 4.5;
+    camera.position.y = 0.2;
+  }
+
+  camera.updateProjectionMatrix();
+};
+
+window.addEventListener('resize', resizeThree);
+if ('ResizeObserver' in window) new ResizeObserver(resizeThree).observe(containerWrapper);
+window.addEventListener('load', () => { resizeThree(); setTimeout(resizeThree, 200); setTimeout(resizeThree, 600); });
+requestAnimationFrame(() => { resizeThree(); requestAnimationFrame(resizeThree); });
+
+// Lighting
+scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+dirLight.position.set(5, 5, 5);
+scene.add(dirLight);
+// Extra fill so model reads against bright or dark camera backgrounds
+const fillLight = new THREE.DirectionalLight(0xffe8c0, 1.0);
+fillLight.position.set(-4, 3, -4);
+scene.add(fillLight);
+
+const sticks = [];
+let chosenStickIndex = -1;
+const loader = new GLTFLoader();
+
+// Group to synchronize container and sticks movement
+const physicsGroup = new THREE.Group();
+physicsGroup.position.y = -0.6;
+scene.add(physicsGroup);
+
+// Load Container
+loader.load('assestes/3D_Model/Seam_Si/Container.glb', (gltf) => {
+  const m = gltf.scene;
+  m.rotation.y = -Math.PI / 2;
+  const box = new THREE.Box3().setFromObject(m);
+  const center = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3());
+  const scale = 2.0 / size.y;
+  m.scale.setScalar(scale);
+  // Adjust position relative to physicsGroup
+  m.position.set(-center.x * scale, -center.y * scale + 0.44, -center.z * scale);
+  physicsGroup.add(m);
+});
+
+// Load 7 Sticks
+['stick1', 'stick2', 'stick3', 'stick4', 'stick5', 'stick6', 'stick7'].forEach((name, i) => {
+  loader.load(`assestes/3D_Model/Seam_Si/${name}.glb`, (gltf) => {
+    const mesh = gltf.scene;
+    const box = new THREE.Box3().setFromObject(mesh);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    const sc = 1.8 / size.y;
+    mesh.scale.setScalar(sc);
+    mesh.position.set(-center.x * sc, -center.y * sc + (size.y * sc) / 2, -center.z * sc);
+
+    const pivot = new THREE.Group();
+    pivot.add(mesh);
+
+    let px = 0, pz = 0, leanX = 0, leanZ = 0;
+    if (i > 0) {
+      // Place 6 sticks loosely around center stick for clear idle separation
+      const angle = ((i - 1) / 6) * Math.PI * 2;
+      const radius = 0.06 + Math.random() * 0.02; // wider spacing 
+      px = Math.cos(angle) * radius;
+      pz = Math.sin(angle) * radius;
+
+      // Lean them outward clearly
+      const leanAmount = 0.1 + Math.random() * 0.05;
+      leanX = Math.sin(angle) * leanAmount;
+      leanZ = -Math.cos(angle) * leanAmount;
+    } else {
+      // Center stick
+      leanX = (Math.random() - 0.5) * 0.05;
+      leanZ = (Math.random() - 0.5) * 0.05;
+    }
+
+    pivot.userData = {
+      baseX: px,
+      baseZ: pz,
+      baseY: 0,
+      leanX: leanX,
+      leanZ: leanZ
+    };
+
+    physicsGroup.add(pivot);
+    sticks.push(pivot);
+  });
+});
+
+// ===== AR Mode =====
+arToggle.addEventListener('click', () => {
+  if (isARMode) { exitAR(); } else { arCamPrompt.classList.add('visible'); }
+});
+
+$('btnArCancel').addEventListener('click', () => arCamPrompt.classList.remove('visible'));
+
+$('btnArAllow').addEventListener('click', async () => {
+  arCamPrompt.classList.remove('visible');
+  await enterAR();
+});
+
+async function enterAR() {
+  try {
+    arStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1080 } },
+      audio: false
+    });
+    arVideo.srcObject = arStream;
+    await arVideo.play();
+
+    isARMode = true;
+    document.body.classList.add('ar-mode');
+    arToggle.classList.add('active');
+    $('arToggleLabel').textContent = 'ออก AR';
+
+    // Force canvas to re-measure after layout change
+    setTimeout(resizeThree, 100);
+    setTimeout(resizeThree, 400);
+
+    // Auto-hide hint after 4s
+    const hint = $('arHint');
+    hint.style.opacity = '1';
+    setTimeout(() => { hint.style.transition = 'opacity 1s'; hint.style.opacity = '0'; }, 4000);
+
+  } catch (err) {
+    console.warn('Camera error:', err);
+    showARError('ไม่สามารถเปิดกล้องได้ — กรุณาอนุญาตในการตั้งค่าเบราว์เซอร์');
+  }
+}
+
+function exitAR() {
+  isARMode = false;
+  document.body.classList.remove('ar-mode');
+  arToggle.classList.remove('active');
+  $('arToggleLabel').textContent = 'AR';
+  if (arStream) {
+    arStream.getTracks().forEach(t => t.stop());
+    arStream = null;
+    arVideo.srcObject = null;
+  }
+  setTimeout(resizeThree, 100);
+  setTimeout(resizeThree, 400);
+}
+
+function showARError(msg) {
+  arError.textContent = msg;
+  arError.classList.add('visible');
+  setTimeout(() => arError.classList.remove('visible'), 4000);
+}
+
+// ===== Particles =====
+(function initParticles() {
+  const container = $('particles');
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 8 + 's';
+    p.style.animationDuration = (6 + Math.random() * 4) + 's';
+    const sz = (2 + Math.random() * 4) + 'px';
+    p.style.width = sz; p.style.height = sz;
+    container.appendChild(p);
+  }
+})();
+
+// ===== Permission / Gyro =====
+$('btnPermission').addEventListener('click', async () => {
+  if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+    try {
+      const perm = await DeviceMotionEvent.requestPermission();
+      perm === 'granted' ? startMotion() : fallbackToTap();
+    } catch { fallbackToTap(); }
+  } else if ('DeviceMotionEvent' in window) {
+    startMotion();
+  } else {
+    fallbackToTap();
+  }
+  permissionScreen.classList.add('hidden');
+
+  // Since AR is the default mode, auto-start it immediately
+  enterAR();
+});
+
+function startMotion() { hasGyro = true; window.addEventListener('devicemotion', handleMotion, true); }
+function fallbackToTap() { hasGyro = false; document.body.classList.add('no-gyro'); }
+
+if (!('DeviceMotionEvent' in window) || /Macintosh|Windows/.test(navigator.userAgent)) {
+  permissionScreen.classList.add('hidden');
+  fallbackToTap();
+}
+
+function handleMotion(e) {
+  if (isRevealed) return;
+  const a = e.accelerationIncludingGravity;
+  if (!a || a.x === null) return;
+
+  // Calculate absolute phone orientation from gravity (syncs 3D cup to phone perfectly)
+  const targetLR = (a.x / 9.8) * 0.6;
+  const targetFB = (a.z / 9.8) * 0.6 + 0.15;
+
+  physics.targetCupAngleLR = isNaN(targetLR) ? 0 : Math.max(-0.8, Math.min(0.8, targetLR));
+  physics.targetCupAngleFB = isNaN(targetFB) ? 0.15 : Math.max(-0.5, Math.min(1.0, targetFB));
+
+  const dx = a.x - lastAccel.x, dy = a.y - lastAccel.y, dz = a.z - lastAccel.z;
+  const delta = Math.abs(dx) + Math.abs(dy) + Math.abs(dz);
+  lastAccel = { x: a.x, y: a.y, z: a.z };
+
+  if (delta > 5) {
+    physics.velX += dx * 0.8;
+    physics.velZ += (dy - dz) * 0.8;
+  }
+  if (delta > SHAKE_THRESHOLD) {
+    addShake(Math.min((delta - SHAKE_THRESHOLD) / 5 * 4, 15));
+  }
+}
+
+function addShake(amount) {
+  if (isRevealed) return;
+  shakeProgress = Math.min(SHAKE_GOAL, shakeProgress + amount);
+  shakeMeterFill.style.width = (shakeProgress / SHAKE_GOAL * 100) + '%';
+  if (!isShaking) { isShaking = true; shakeMeter.classList.add('visible'); }
+  if (shakeProgress >= SHAKE_GOAL) revealFortune();
+}
+
+// ===== Physics Loop =====
+function physicsLoop() {
+  if (!physics.rising) {
+    // Clamp extreme velocities to prevent crazy shaking
+    physics.velX = Math.max(-25, Math.min(25, physics.velX));
+    physics.velZ = Math.max(-25, Math.min(25, physics.velZ));
+
+    physics.cupVelLR += physics.velX * 0.01;
+    physics.cupVelFB += physics.velZ * 0.01;
+
+    // Spring cup perfectly towards the absolute phone orientation
+    const targetLR = physics.targetCupAngleLR || 0;
+    const targetFB = physics.targetCupAngleFB || 0.15;
+
+    physics.cupVelLR += (targetLR - physics.cupAngleLR) * 0.2;
+    physics.cupVelFB += (targetFB - physics.cupAngleFB) * 0.2;
+
+    physics.cupVelLR *= 0.8;
+    physics.cupVelFB *= 0.8;
+
+    physics.cupAngleLR += physics.cupVelLR;
+    physics.cupAngleFB += physics.cupVelFB;
+
+    // Sticks sliding logic (bundle physics)
+    // Sticks follow the direction of movement (User turning right = sticks go right)
+    physics.bundleVelX += physics.velX * 0.03;
+    physics.bundleVelZ -= physics.velZ * 0.03; // 3D Forward is -Z
+
+    // Gravity pulls sticks to the lowest point of the tilted cup
+    physics.bundleVelX += physics.cupAngleLR * 0.05;
+    physics.bundleVelZ -= physics.cupAngleFB * 0.05;
+
+    // Bundle settles at bottom
+    physics.bundleVelX += (0 - physics.bundleX) * 0.08;
+    physics.bundleVelZ += (0 - physics.bundleZ) * 0.08;
+
+    physics.bundleVelX *= 0.85;
+    physics.bundleVelZ *= 0.85;
+
+    physics.bundleX += physics.bundleVelX;
+    physics.bundleZ += physics.bundleVelZ;
+
+    // Clamp bundle position so sticks don't clip walls
+    const maxBundleR = 0.06;
+    const bundleR = Math.sqrt(physics.bundleX ** 2 + physics.bundleZ ** 2);
+    if (bundleR > maxBundleR) {
+      physics.bundleX = (physics.bundleX / bundleR) * maxBundleR;
+      physics.bundleZ = (physics.bundleZ / bundleR) * maxBundleR;
+    }
+
+    physics.velX *= 0.8;
+    physics.velZ *= 0.8;
+  } else {
+    physics.riseY = Math.min(1, physics.riseY + 0.012);
+    physics.cupVelLR += (0 - physics.cupAngleLR) * 0.1;
+    physics.cupVelFB += (0 - physics.cupAngleFB) * 0.1;
+    physics.cupVelLR *= 0.8;
+    physics.cupVelFB *= 0.8;
+    physics.cupAngleLR += physics.cupVelLR;
+    physics.cupAngleFB += physics.cupVelFB;
+    physics.bundleVelX *= 0.8;
+    physics.bundleVelZ *= 0.8;
+  }
+
+  // Apply tilt to the cup model correctly mapping the axes
+  // Forward tilt is rotating around +X axis
+  physicsGroup.rotation.x = physics.cupAngleFB;
+  // Right tilt is rotating around -Z axis
+  physicsGroup.rotation.z = -physics.cupAngleLR;
+
+  const shakeIntensity = Math.abs(physics.cupVelLR) + Math.abs(physics.cupVelFB);
+  const bundleR = Math.sqrt(physics.bundleX ** 2 + physics.bundleZ ** 2);
+  const packFactor = Math.min(bundleR / 0.06, 1.0); // 1 = packed against wall
+
+  sticks.forEach((stick, i) => {
+    if (physics.rising && i === chosenStickIndex) {
+      stick.position.y = stick.userData.baseY + physics.riseY * 1.5;
+      stick.position.x += (0 - stick.position.x) * 0.1;
+      stick.position.z += (0 - stick.position.z) * 0.1;
+
+      stick.rotation.x *= 0.9;
+      stick.rotation.y *= 0.9;
+      stick.rotation.z *= 0.9;
+    } else {
+      // Squeeze slightly when packing against the wall, but keep them separated
+      const currentSpread = 1 - (packFactor * 0.4); // retains 60% of their spacing when packed
+      stick.position.x = physics.bundleX + stick.userData.baseX * currentSpread;
+      stick.position.z = physics.bundleZ + stick.userData.baseZ * currentSpread;
+      stick.position.y = stick.userData.baseY;
+
+      stick.rotation.y = 0; // Prevent twisting
+
+      // Lean uniformly against the container wall when sliding
+      const wallLeanX = -physics.bundleZ * 2.0;
+      const wallLeanZ = -physics.bundleX * 2.0;
+
+      // Original messy lean is reduced slightly when packed tightly
+      const baseLeanX = stick.userData.leanX * currentSpread;
+      const baseLeanZ = stick.userData.leanZ * currentSpread;
+
+      // Tiny high-frequency rattle to simulate physical collisions
+      const rattleX = Math.sin(Date.now() * 0.05 + i) * shakeIntensity * 0.05;
+      const rattleZ = Math.cos(Date.now() * 0.04 + i) * shakeIntensity * 0.05;
+
+      stick.rotation.x = baseLeanX + wallLeanX + rattleX;
+      stick.rotation.z = baseLeanZ + wallLeanZ + rattleZ;
+    }
+  });
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(physicsLoop);
+}
+requestAnimationFrame(physicsLoop);
+
+// ===== Tap/Click =====
+const TAP_AMOUNT = 20;
+let tappedByTouch = false;
+const siamiSection = document.querySelector('.siamsi-section');
+const tapTargets = [containerWrapper, siamiSection];
+const btnTap = $('btnTap');
+if (btnTap) tapTargets.push(btnTap);
+
+tapTargets.forEach(el => {
+  el.addEventListener('contextmenu', e => e.preventDefault());
+  el.style.webkitUserSelect = 'none';
+  el.style.userSelect = 'none';
+  el.style.webkitTouchCallout = 'none';
+  el.addEventListener('touchend', (e) => {
+    const isTempleBtn = e.target.closest('.temple-actions');
+    const isOtherBtn = e.target.closest('button') && e.target.id !== 'btnTap';
+
+    if (isTempleBtn || isOtherBtn) return;
+
+    e.preventDefault(); tappedByTouch = true; doTap();
+    setTimeout(() => { tappedByTouch = false; }, 400);
+  }, { passive: false });
+  el.addEventListener('click', (e) => {
+    const isTempleBtn = e.target.closest('.temple-actions');
+    const isOtherBtn = e.target.closest('button') && e.target.id !== 'btnTap';
+
+    if (isTempleBtn || isOtherBtn) return;
+    if (!tappedByTouch) doTap();
+  });
+});
+
+function doTap() {
+  if (isRevealed) return;
+  physics.velX += (Math.random() - 0.5) * 30;
+  physics.velZ += (Math.random() - 0.5) * 30;
+  addShake(TAP_AMOUNT);
+}
+
+// ===== Reveal Fortune =====
+function revealFortune() {
+  if (isRevealed) return;
+  isRevealed = true;
+  shakeMeter.classList.remove('visible');
+  instruction.style.opacity = '0';
+
+  const fortune = FORTUNES[Math.floor(Math.random() * FORTUNES.length)];
+  stickNumber.textContent = fortune.num;
+  if (sticks.length > 0) chosenStickIndex = Math.floor(Math.random() * sticks.length);
+  physics.rising = true;
+  physics.velX = (Math.random() - 0.5) * 10;
+  physics.velZ = 5 + Math.random() * 5;
+
+  setTimeout(() => stickNumberOverlay.classList.add('visible'), 1000);
+  createSparkles();
+  setTimeout(() => {
+    if (fortune.num >= 1 && fortune.num <= 7) {
+      showTempleModel(fortune.num, fortune);
+    } else {
+      showPopup(fortune);
+    }
+  }, 2800);
+}
+
+function createSparkles() {
+  sparkleBurst.innerHTML = '';
+  for (let i = 0; i < 12; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    const angle = (i / 12) * Math.PI * 2;
+    const dist = 40 + Math.random() * 60;
+    s.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+    s.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+    s.style.animationDelay = Math.random() * 0.3 + 's';
+    sparkleBurst.appendChild(s);
+  }
+}
+
+// ===== Temple & Monk Loading =====
+let currentTemple = null;
+let currentMonk = null;
+let currentTempleNum = -1;
+let isMonkView = false;
+const templeCache = {};
+const monkCache = {};
+
+const getActiveModel = () => isMonkView ? currentMonk : currentTemple;
+
+function renderGallery(num, isMonk, images) {
+  const gallery = $('sheetGallery');
+  gallery.innerHTML = '';
+  if (images && images.length > 0) {
+    images.forEach(img => {
+      const imgEl = document.createElement('img');
+      imgEl.src = isMonk ? `assestes/Picture/Monk${num}/${img}` : `assestes/Picture/Temple${num}/${img}`;
+      imgEl.loading = 'lazy';
+      imgEl.style.cursor = 'pointer';
+      imgEl.addEventListener('click', () => {
+        $('imageViewerImg').src = imgEl.src;
+        $('imageViewer').classList.add('visible');
+      });
+      gallery.appendChild(imgEl);
+    });
+  }
+}
+
+btnToggleMonk.addEventListener('click', () => {
+  if (!currentTemple || !monkCache[currentTempleNum]) return;
+
+  const fortune = FORTUNES.find(f => f.num === currentTempleNum);
+  isMonkView = !isMonkView;
+  createSparkles();
+
+  if (isMonkView) {
+    currentTemple.visible = false;
+    currentMonk = monkCache[currentTempleNum];
+    currentMonk.visible = true;
+
+    currentMonk.rotation.y = 0;
+    currentMonk.rotation.x = 0;
+    currentScale = 1.0;
+    currentMonk.scale.setScalar(currentMonk.userData.baseScale);
+
+    btnToggleMonk.innerHTML = '<span class="icon">🛕</span> กลับไปดูวัด';
+
+    // Update Info Sheet for Monk
+    if (fortune.monkTitle) $('sheetTitle').textContent = fortune.monkTitle;
+    if (fortune.monkText) $('sheetText').innerHTML = fortune.monkText;
+    if (fortune.monkAdvice) $('sheetAdvice').textContent = `💡 ${fortune.monkAdvice}`;
+    renderGallery(currentTempleNum, true, fortune.monkImages || fortune.images);
+  } else {
+    currentMonk.visible = false;
+    currentTemple.visible = true;
+
+    currentTemple.rotation.y = 0;
+    currentTemple.rotation.x = 0;
+    currentScale = 1.0;
+    currentTemple.scale.setScalar(currentTemple.userData.baseScale);
+
+    btnToggleMonk.innerHTML = '<span class="icon">🙏</span> สักการะเกจิอาจารย์';
+
+    // Revert Info Sheet to Temple
+    $('sheetTitle').textContent = fortune.title;
+    $('sheetText').innerHTML = fortune.text;
+    $('sheetAdvice').textContent = `💡 ${fortune.advice}`;
+    renderGallery(currentTempleNum, false, fortune.images);
+  }
+});
+
+function showTempleModel(num, fortune) {
+  physicsGroup.visible = false;
+  stickNumberOverlay.classList.remove('visible');
+  $('instruction').style.display = 'none';
+  $('desktopTap').style.display = 'none';
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
+
+  // Show guide and reset guide state
+  guideVisible = true;
+  guideHidden = false;
+  $('modelGuide').classList.add('visible');
+  
+  // Auto-hide guide after 5 seconds if not manually dismissed
+  const guideTimeout = setTimeout(() => {
+    if (guideVisible && !guideHidden) hideGuide();
+  }, 5000);
+  $('modelGuide').guideTimeout = guideTimeout;
+
+  currentTempleNum = num;
+  isMonkView = false;
+  btnToggleMonk.style.display = fortune.hasMonk ? 'flex' : 'none';
+  btnToggleMonk.innerHTML = '<span class="icon">🙏</span> สักการะเกจิอาจารย์';
+
+  // Preload Monk model if needed
+  if (fortune.hasMonk && !monkCache[num]) {
+    loader.load(`assestes/3D_Model/Monk/monk${num}.glb`, (gltf) => {
+      const mesh = gltf.scene;
+      const box = new THREE.Box3().setFromObject(mesh);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+
+      const baseScale = 2.0 / size.y; // Make monk slightly larger
+      mesh.userData.baseScale = baseScale;
+      mesh.scale.setScalar(baseScale);
+      mesh.position.set(-center.x * baseScale, -center.y * baseScale - 0.2, -center.z * baseScale);
+
+      mesh.visible = false;
+      scene.add(mesh);
+      monkCache[num] = mesh;
+    });
+  }
+
+  // Populate and show the info sheet
+  $('sheetTitle').textContent = fortune.title;
+  $('sheetText').innerHTML = fortune.text;
+  $('sheetAdvice').textContent = `💡 ${fortune.advice}`;
+
+  // Populate Gallery
+  renderGallery(num, false, fortune.images);
+
+  // Reset tabs
+  document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sheet-tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('.sheet-tab[data-tab="info"]').classList.add('active');
+  $('tabInfo').classList.add('active');
+
+  $('templeInfoSheet').style.display = 'block';
+  containerWrapper.classList.add('temple-mode');
+  toggleSheet(false);
+
+  if (templeCache[num]) {
+    currentTemple = templeCache[num];
+    currentTemple.visible = true;
+    templeActions.style.display = 'flex';
+  } else {
+    loader.load(`assestes/3D_Model/Temple/temple${num}.glb`, (gltf) => {
+      const mesh = gltf.scene;
+      const box = new THREE.Box3().setFromObject(mesh);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+
+      const baseScale = 1.8 / size.y; // Base size
+      mesh.userData.baseScale = baseScale;
+      mesh.scale.setScalar(baseScale * currentScale);
+      mesh.position.set(-center.x * baseScale, -center.y * baseScale - 0.3, -center.z * baseScale);
+
+      scene.add(mesh);
+      templeCache[num] = mesh;
+      currentTemple = mesh;
+      templeActions.style.display = 'flex';
+    });
+  }
+}
+
+// ===== Guide Helper Functions =====
+function hideGuide() {
+  if (guideVisible && !guideHidden) {
+    guideHidden = true;
+    const guide = $('modelGuide');
+    guide.classList.remove('visible');
+    if (guide.guideTimeout) clearTimeout(guide.guideTimeout);
+  }
+}
+
+function resetGuideState() {
+  guideVisible = false;
+  guideHidden = false;
+}
+
+// ===== Temple Rotation & Zoom =====
+let isDragging = false;
+let previousX = 0;
+let previousY = 0;
+
+let currentScale = 1.0;
+const MIN_SCALE = 0.5;
+const MAX_SCALE = 3.0;
+let initialPinchDist = null;
+let baseZoomScale = 1.0;
+
+containerWrapper.addEventListener('pointerdown', (e) => {
+  const model = getActiveModel();
+  if (model && model.visible && e.isPrimary) {
+    hideGuide();
+    isDragging = true;
+    previousX = e.clientX;
+    previousY = e.clientY;
+  }
+});
+
+window.addEventListener('pointermove', (e) => {
+  const model = getActiveModel();
+  if (isDragging && model && model.visible && e.isPrimary) {
+    const deltaX = e.clientX - previousX;
+    const deltaY = e.clientY - previousY;
+
+    model.rotation.y += deltaX * 0.015;
+    model.rotation.x += deltaY * 0.015;
+
+    previousX = e.clientX;
+    previousY = e.clientY;
+  }
+});
+
+window.addEventListener('pointerup', (e) => {
+  if (e.isPrimary) isDragging = false;
+});
+
+// Touch pinch zoom
+containerWrapper.addEventListener('touchstart', (e) => {
+  const model = getActiveModel();
+  if (model && model.visible && e.touches.length === 2) {
+    hideGuide();
+    initialPinchDist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+    baseZoomScale = currentScale;
+  }
+}, { passive: true });
+
+containerWrapper.addEventListener('touchmove', (e) => {
+  const model = getActiveModel();
+  if (model && model.visible && e.touches.length === 2 && initialPinchDist) {
+    const dist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+    currentScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, baseZoomScale * (dist / initialPinchDist)));
+    model.scale.setScalar(model.userData.baseScale * currentScale);
+  }
+}, { passive: true });
+
+containerWrapper.addEventListener('touchend', (e) => {
+  if (e.touches.length < 2) initialPinchDist = null;
+});
+
+// Desktop scroll zoom
+containerWrapper.addEventListener('wheel', (e) => {
+  const model = getActiveModel();
+  if (model && model.visible) {
+    hideGuide();
+    e.preventDefault();
+    currentScale += e.deltaY * -0.002;
+    currentScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, currentScale));
+    model.scale.setScalar(model.userData.baseScale * currentScale);
+  }
+}, { passive: false });
+
+// ===== Temple Info Sheet Logic =====
+const templeInfoSheet = $('templeInfoSheet');
+const sheetDragHandle = $('sheetDragHandle');
+const sheetContent = templeInfoSheet.querySelector('.sheet-content');
+let sheetStartY = 0;
+let sheetCurrentY = 0;
+let isSheetDragging = false;
+
+function toggleSheet(forceState) {
+  const isExpanded = forceState !== undefined ? forceState : !templeInfoSheet.classList.contains('expanded');
+
+  if (isExpanded) {
+    templeInfoSheet.classList.add('expanded');
+    btnTempleAgain.style.opacity = '0';
+    btnTempleAgain.style.pointerEvents = 'none';
+    containerWrapper.classList.add('sheet-open');
+  } else {
+    templeInfoSheet.classList.remove('expanded');
+    btnTempleAgain.style.opacity = '1';
+    btnTempleAgain.style.pointerEvents = 'auto';
+    containerWrapper.classList.remove('sheet-open');
+  }
+  templeInfoSheet.style.transform = '';
+}
+
+// Only allow swipe from the drag handle
+sheetDragHandle.addEventListener('touchstart', (e) => {
+  const touch = e.touches[0];
+  sheetStartY = touch.clientY;
+  sheetCurrentY = sheetStartY;
+  isSheetDragging = true;
+  templeInfoSheet.style.transition = 'none';
+}, { passive: true });
+
+sheetDragHandle.addEventListener('touchmove', (e) => {
+  if (!isSheetDragging) return;
+  
+  const touch = e.touches[0];
+  sheetCurrentY = touch.clientY;
+  const deltaY = sheetCurrentY - sheetStartY;
+  const isExpanded = templeInfoSheet.classList.contains('expanded');
+
+  if (!isExpanded && deltaY < 0) { // pulling up
+    e.preventDefault();
+    templeInfoSheet.style.transform = `translateY(calc(100% - 160px + ${deltaY}px))`;
+  } else if (isExpanded && deltaY > 0) { // pushing down - limit to not go above 15vh from top
+    const limitedDelta = Math.min(deltaY, window.innerHeight * 0.85);
+    templeInfoSheet.style.transform = `translateY(${limitedDelta}px)`;
+  }
+}, { passive: false });
+
+sheetDragHandle.addEventListener('touchend', (e) => {
+  if (!isSheetDragging) return;
+  isSheetDragging = false;
+  templeInfoSheet.style.transition = '';
+  const deltaY = sheetCurrentY - sheetStartY;
+
+  if (Math.abs(deltaY) > 40) {
+    if (deltaY < 0) toggleSheet(true);
+    else toggleSheet(false);
+  } else {
+    templeInfoSheet.style.transform = '';
+  }
+});
+
+// Click the handle to toggle
+sheetDragHandle.addEventListener('click', () => toggleSheet());
+
+// ===== Popup =====
+function showPopup(fortune) {
+  $('popupStickNum').textContent = `เซียมซี ใบที่ ${fortune.num}`;
+  $('popupTitle').textContent = fortune.title;
+  $('popupText').innerHTML = fortune.text;
+  $('popupAdvice').textContent = `💡 ${fortune.advice}`;
+  const starsEl = $('luckStars');
+  starsEl.innerHTML = '';
+  for (let i = 0; i < 5; i++) {
+    const star = document.createElement('span');
+    star.className = 'star' + (i >= fortune.level ? ' empty' : '');
+    star.textContent = '⭐';
+    star.style.animationDelay = (i * 0.15) + 's';
+    starsEl.appendChild(star);
+  }
+  popupOverlay.classList.add('active');
+}
+
+function hidePopup() { popupOverlay.classList.remove('active'); }
+
+// ===== Reset =====
+function resetGame() {
+  hidePopup();
+  resetGuideState();
+  if (currentTemple) {
+    currentTemple.visible = false;
+    currentTemple.rotation.x = 0; // reset rotation X
+    currentTemple.rotation.y = 0; // reset rotation Y
+    currentScale = 1.0;
+    currentTemple.scale.setScalar(currentTemple.userData.baseScale);
+    currentTemple = null;
+  }
+  if (currentMonk) {
+    currentMonk.visible = false;
+    currentMonk.rotation.x = 0;
+    currentMonk.rotation.y = 0;
+    currentMonk.scale.setScalar(currentMonk.userData.baseScale);
+    currentMonk = null;
+  }
+  isMonkView = false;
+  currentTempleNum = -1;
+
+  templeActions.style.display = 'none';
+  $('templeInfoSheet').style.display = 'none';
+  containerWrapper.classList.remove('temple-mode');
+  physicsGroup.visible = true;
+  $('instruction').style.display = '';
+  $('desktopTap').style.display = '';
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+
+  setTimeout(() => {
+    isRevealed = false; isShaking = false; shakeProgress = 0;
+    shakeMeter.classList.remove('visible');
+    shakeMeterFill.style.width = '0%';
+    instruction.style.opacity = '1';
+    sparkleBurst.innerHTML = '';
+    stickNumberOverlay.classList.remove('visible');
+    Object.assign(physics, { cupAngleLR: 0, cupAngleFB: 0.15, cupVelLR: 0, cupVelFB: 0, bundleX: 0, bundleZ: 0, bundleVelX: 0, bundleVelZ: 0, velX: 0, velZ: 0, riseY: 0, rising: false });
+    chosenStickIndex = -1;
+  }, 400);
+}
+
+// ===== Tab Logic =====
+document.querySelectorAll('.sheet-tab').forEach(tab => {
+  tab.addEventListener('click', (e) => {
+    // Expand sheet if it's currently only peeking
+    if (!templeInfoSheet.classList.contains('expanded')) {
+      toggleSheet(true);
+    }
+
+    document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.sheet-tab-content').forEach(c => c.classList.remove('active'));
+
+    tab.classList.add('active');
+    const target = tab.getAttribute('data-tab');
+    if (target === 'info') $('tabInfo').classList.add('active');
+    if (target === 'gallery') $('tabGallery').classList.add('active');
+  });
+});
+
+$('btnAgain').addEventListener('click', resetGame);
+$('btnTempleAgain').addEventListener('click', resetGame);
+$('btnShare').addEventListener('click', () => {
+  const msg = `🪷 เซียมซี: ${$('popupTitle').textContent}\n${$('popupText').textContent}`;
+  if (navigator.share) navigator.share({ title: 'เซียมซี', text: msg }).catch(() => { });
+  else navigator.clipboard.writeText(msg).then(() => alert('คัดลอกแล้ว!')).catch(() => { });
+});
+
+// ===== Sound Control =====
+const soundPlayer = $('soundPlayer');
+const btnSound = $('btnSound');
+let currentFortuneNum = -1;
+let isAudioPlaying = false;
+
+// Toggle sound button - play/stop audio
+btnSound.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (currentFortuneNum < 1 || currentFortuneNum > 7) return;
+  
+  if (isAudioPlaying) {
+    // Stop audio
+    soundPlayer.pause();
+    soundPlayer.currentTime = 0;
+    isAudioPlaying = false;
+    btnSound.classList.remove('playing');
+  } else {
+    // Play audio
+    const soundType = isMonkView ? 'monk' : 'temple';
+    const soundPath = `assestes/Sound/${soundType}/${soundType}${currentFortuneNum}.mp3`;
+    soundPlayer.src = soundPath;
+    soundPlayer.currentTime = 0;
+    soundPlayer.play().catch(err => console.warn('Sound play error:', err));
+    isAudioPlaying = true;
+    btnSound.classList.add('playing');
+  }
+});
+
+// Update audio state when sound ends
+soundPlayer.addEventListener('ended', () => {
+  isAudioPlaying = false;
+  btnSound.classList.remove('playing');
+});
+
+// Update current fortune number when showing temple
+const originalShowTempleModel = showTempleModel;
+showTempleModel = function(num, fortune) {
+  currentFortuneNum = num;
+  isAudioPlaying = false;
+  btnSound.classList.remove('playing');
+  soundPlayer.pause();
+  originalShowTempleModel(num, fortune);
+};
+
+// Update button visibility when resetting game
+const originalResetGame = resetGame;
+resetGame = function() {
+  isAudioPlaying = false;
+  btnSound.classList.remove('playing');
+  soundPlayer.pause();
+  originalResetGame();
+};
+
+// Image Viewer Logic =====
+$('imageViewerClose').addEventListener('click', () => {
+  $('imageViewer').classList.remove('visible');
+  setTimeout(() => $('imageViewerImg').src = '', 300);
+});
+
+$('imageViewer').addEventListener('click', (e) => {
+  if (e.target === $('imageViewer')) {
+    $('imageViewer').classList.remove('visible');
+    setTimeout(() => $('imageViewerImg').src = '', 300);
+  }
+});
