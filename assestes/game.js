@@ -110,6 +110,25 @@ const SHAKE_GOAL = 100;
 let guideVisible = false;
 let guideHidden = false;
 
+// ===== Fortune Show-Count Limiter =====
+const MAX_SHOWS_PER_FORTUNE = 2;
+let fortuneShowCounts = {}; // { [fortuneNum]: count }
+
+function pickFortune() {
+  // Build list of fortunes still under the cap
+  let available = FORTUNES.filter(f => (fortuneShowCounts[f.num] || 0) < MAX_SHOWS_PER_FORTUNE);
+
+  // If all are exhausted, reset counts and start a fresh round
+  if (available.length === 0) {
+    fortuneShowCounts = {};
+    available = FORTUNES.slice();
+  }
+
+  const chosen = available[Math.floor(Math.random() * available.length)];
+  fortuneShowCounts[chosen.num] = (fortuneShowCounts[chosen.num] || 0) + 1;
+  return chosen;
+}
+
 // ===== Stick Physics =====
 const physics = {
   cupAngleLR: 0, cupAngleFB: 0.15,
@@ -549,7 +568,7 @@ function revealFortune() {
   shakeMeter.classList.remove('visible');
   instruction.style.opacity = '0';
 
-  const fortune = FORTUNES[Math.floor(Math.random() * FORTUNES.length)];
+  const fortune = pickFortune();
   stickNumber.textContent = fortune.num;
   if (sticks.length > 0) chosenStickIndex = Math.floor(Math.random() * sticks.length);
   physics.rising = true;
