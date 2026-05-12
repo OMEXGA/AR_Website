@@ -153,6 +153,14 @@
     <img id="imageViewerImg" src="" alt="">
   </div>
 
+  <!-- Model Guide (appears when model is shown) -->
+  <div class="model-guide" id="modelGuide">
+    <div class="guide-content">
+      <span class="guide-icon">👆</span>
+      <p class="guide-text">ลากเพื่อหมุนโมเดล • หมุดขยายหรือลดขนาด</p>
+    </div>
+  </div>
+
   <!-- Audio Element -->
   <audio id="soundPlayer" style="display: none;"></audio>
 
@@ -266,6 +274,8 @@
     let arStream = null;
     const SHAKE_THRESHOLD = 12;
     const SHAKE_GOAL = 100;
+    let guideVisible = false;
+    let guideHidden = false;
 
     // ===== Stick Physics =====
     const physics = {
@@ -817,6 +827,17 @@
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
 
+      // Show guide and reset guide state
+      guideVisible = true;
+      guideHidden = false;
+      $('modelGuide').classList.add('visible');
+      
+      // Auto-hide guide after 5 seconds if not manually dismissed
+      const guideTimeout = setTimeout(() => {
+        if (guideVisible && !guideHidden) hideGuide();
+      }, 5000);
+      $('modelGuide').guideTimeout = guideTimeout;
+
       currentTempleNum = num;
       isMonkView = false;
       btnToggleMonk.style.display = fortune.hasMonk ? 'flex' : 'none';
@@ -883,6 +904,21 @@
       }
     }
 
+    // ===== Guide Helper Functions =====
+    function hideGuide() {
+      if (guideVisible && !guideHidden) {
+        guideHidden = true;
+        const guide = $('modelGuide');
+        guide.classList.remove('visible');
+        if (guide.guideTimeout) clearTimeout(guide.guideTimeout);
+      }
+    }
+
+    function resetGuideState() {
+      guideVisible = false;
+      guideHidden = false;
+    }
+
     // ===== Temple Rotation & Zoom =====
     let isDragging = false;
     let previousX = 0;
@@ -897,6 +933,7 @@
     containerWrapper.addEventListener('pointerdown', (e) => {
       const model = getActiveModel();
       if (model && model.visible && e.isPrimary) {
+        hideGuide();
         isDragging = true;
         previousX = e.clientX;
         previousY = e.clientY;
@@ -925,6 +962,7 @@
     containerWrapper.addEventListener('touchstart', (e) => {
       const model = getActiveModel();
       if (model && model.visible && e.touches.length === 2) {
+        hideGuide();
         initialPinchDist = Math.hypot(
           e.touches[0].clientX - e.touches[1].clientX,
           e.touches[0].clientY - e.touches[1].clientY
@@ -953,6 +991,7 @@
     containerWrapper.addEventListener('wheel', (e) => {
       const model = getActiveModel();
       if (model && model.visible) {
+        hideGuide();
         e.preventDefault();
         currentScale += e.deltaY * -0.002;
         currentScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, currentScale));
@@ -1051,6 +1090,7 @@
     // ===== Reset =====
     function resetGame() {
       hidePopup();
+      resetGuideState();
       if (currentTemple) {
         currentTemple.visible = false;
         currentTemple.rotation.x = 0; // reset rotation X

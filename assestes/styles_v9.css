@@ -1338,3 +1338,58 @@ body.ar-mode #arHint { display: block; }
   top: 8px;
   right: 8px;
 }
+
+/* ===== Model Guide ===== */
+.model-guide {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 200;
+}
+
+.model-guide.visible {
+  opacity: 1;
+}
+
+.guide-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(212, 168, 67, 0.15);
+  border: 2px solid var(--gold);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(212, 168, 67, 0.25);
+}
+
+.guide-icon {
+  font-size: 2.5rem;
+  display: block;
+  animation: guideBounce 2s ease-in-out infinite;
+}
+
+@keyframes guideBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.guide-text {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--gold-light);
+  text-align: center;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0;
+}
