@@ -7,6 +7,7 @@ const FORTUNES = [
     num: 1,
     title: "วัดประชาคมวนาราม (วัดป่ากุง)",
     level: 5,
+    fortuneAspect: { icon: "🧠", label: "ปัญญา & บุญกุศล", desc: "เด่นด้านการเสริมปัญญา ธรรมะ และบุญกุศล เหมาะสำหรับผู้ใฝ่ธรรมและต้องการความก้าวหน้าในการเรียน" },
     text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2535<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ศรี มหาวีโร<br><br><b>สิ่งน่าสนใจ:</b> มหาเจดีย์หินทรายขนาดใหญ่ที่จำลองแบบจากบุโรพุทโธ ประเทศอินโดนีเซีย ภายในประดิษฐานพระบรมสารีริกธาตุ และมีภาพแกะสลักพุทธประวัติรอบองค์เจดีย์<br><br><b>ประวัติโดยย่อ:</b> วัดป่ากุงเป็นวัดสำคัญ of จังหวัดร้อยเอ็ด สร้างขึ้นตามแนวทางปฏิบัติธรรมสายวิปัสสนา โดยหลวงปู่ศรี มหาวีโร มีชื่อเสียงจากสถาปัตยกรรมเจดีย์หินทรายอันงดงาม จนได้รับฉายาว่า “บุโรพุทโธแห่งอีสาน” และเป็นทั้งสถานที่ท่องเที่ยวและปฏิบัติธรรมที่มีชื่อเสียงของภาคอีสาน",
     advice: "วัดจำลองสถาปัตยกรรมระดับโลก ถ่ายรูปสวยงามมาก",
     images: ['012.jpg', '1i66122158jl8r8chB3B3_W_640_0_R5_Q80.jpg', '6399352569fefc1fab8d0af2.jpg'],
@@ -20,6 +21,7 @@ const FORTUNES = [
     num: 2,
     title: "วัดผาน้ำทิพย์เทพประสิทธิ์วนาราม",
     level: 5,
+    fortuneAspect: { icon: "🌟", label: "สิริมงคล & ชีวิตราบรื่น", desc: "เด่นด้านการเสริมสิริมงคล ชีวิตร่มเย็นราบรื่น และขจัดอุปสรรค เหมาะสำหรับผู้ต้องการความสุขสงบในชีวิต" },
     text: "<b>ก่อตั้ง:</b> พ.ศ. 2518<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ทองอินทร์ กตปุญโญ<br><br><b>สิ่งน่าสนใจ:</b> พระมหาเจดีย์ชัยมงคล เจดีย์สีขาวทองขนาดใหญ่บนยอดเขา วิวธรรมชาติรอบวัด และบรรยากาศสงบเหมาะแก่การปฏิบัติธรรม<br><br><b>ประวัติโดยย่อ:</b> วัดผาน้ำทิพย์เทพประสิทธิ์วนาราม เป็นวัดป่าสายวิปัสสนาชื่อดังของจังหวัดร้อยเอ็ด ก่อตั้งโดยหลวงปู่คำพันธ์ โฆสปัญโญ มีชื่อเสียงจากพระมหาเจดีย์ชัยมงคลซึ่งเป็นศูนย์รวมศรัทธาของพุทธศาสนิกชน และเป็นสถานที่ท่องเที่ยวสำคัญของภาคอีสาน",
     advice: "ไหว้พระมหาเจดีย์ชัยมงคลเพื่อเสริมสิริมงคลให้ชีวิตร่มเย็น",
     images: ['DSC_0121.jpg', 'DSC_0129.jpg', 'RXbvDeHuSeKi1pqqi5NxoVOUTmUFd748y28c78OjA3J9ctykyJvktRtjWVMnYBSwNIGnO8VwTeVKAmOqiyvwSrIIX476ZOjhmEW12XWahUKqO3DoiL4KDkPdyoSLRFk6IXy_xj7pZPsE6OLy7FORgdiD2AJkfuZSHzG3RPzy6kTMlAl_E8-RAmqnA94qqGzR.jpeg', 'p-PwAMCYVJTINHzprKOlIalXGFM2aSuMCVovshXac7KkgnNQbwBWPbADjtVjvkD-grMIwmf9DJ7PHfL2taYU5H8B5W0cC12BhlbBaHWUM_Hg95NU41OdK1H-iAVYPV33y9e9WtjzSn--IAiCmzOn3LrDCfGUgPG86j1w-icwwkFRpwc_ryXEZw99QdZ-dzzD.jpeg'],
@@ -33,6 +35,7 @@ const FORTUNES = [
     num: 3,
     title: "วัดกู่พระโกนา",
     level: 4,
+    fortuneAspect: { icon: "🛡️", label: "เมตตา & คงกระพัน", desc: "เด่นด้านเมตตามหานิยม คงกระพันชาตรี แคล้วคลาดจากภัยอันตราย และขับไล่สิ่งชั่วร้าย" },
     text: "<b>ก่อตั้ง:</b> สันนิษฐานว่าสร้างในสมัยขอมโบราณ ราวพุทธศตวรรษที่ 16–17<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่ชม ฐานะธัมโม<br><br><b>สิ่งน่าสนใจ:</b> ปราสาทอิฐศิลปะขอมโบราณ ลวดลายปูนปั้นโบราณที่ยังคงสภาพงดงาม และสถาปัตยกรรมแบบบาปวน<br><br><b>ประวัติโดยย่อ:</b> วัดกู่พระโกนาเป็นโบราณสถานสำคัญของจังหวัดร้อยเอ็ด สร้างขึ้นในสมัยอาณาจักรขอม เพื่อใช้เป็นศาสนสถานในศาสนาฮินดู ก่อนจะเปลี่ยนเป็นพุทธสถานในภายหลัง จุดเด่นคือปราสาทอิฐโบราณและลวดลายปูนปั้นที่หาชมได้ยาก ถือเป็นแหล่งเรียนรู้ทางประวัติศาสตร์และโบราณคดีที่สำคัญของภาคอีสาน",
     advice: "ขอให้ท่านร่มเย็นเป็นสุขและพบเจอแต่สิ่งดีงาม",
     images: ['104216498_869029413585148_1826287216346045801_n.jpg', '362238_0-1024x768.jpg', 'images.jpeg'],
@@ -46,6 +49,7 @@ const FORTUNES = [
     num: 4,
     title: "วัดบูรพาภิราม",
     level: 5,
+    fortuneAspect: { icon: "💼", label: "หน้าที่การงาน & ความสำเร็จ", desc: "เด่นด้านส่งเสริมหน้าที่การงาน ความสำเร็จในชีวิต และเกียรติยศชื่อเสียง ด้วยบารมีหลวงพ่อใหญ่ปางประทานพร" },
     text: "<b>ก่อตั้ง:</b> สร้างขึ้นในสมัยกรุงศรีอยุธยาตอนปลาย ประมาณ พ.ศ. 2318<br><b>เกจิอาจารย์ชื่อดัง:</b> พระราชปรีชาญาณมุนี (พุทธา สิริวุฑฺโฒ)<br><br><b>สิ่งน่าสนใจ:</b> พระพุทธรัตนมงคลมหามุนี หรือ “หลวงพ่อใหญ่” พระพุทธรูปปางประทานพรยืนที่สูงที่สุดแห่งหนึ่งในประเทศไทย สูงประมาณ 59 เมตร<br><br><b>ประวัติโดยย่อ:</b> วัดบูรพาภิรามเป็นวัดเก่าแก่คู่บ้านคู่เมืองร้อยเอ็ด มีความสำคัญทางศาสนาและวัฒนธรรม โดดเด่นด้วยองค์หลวงพ่อใหญ่ขนาดมหึมาที่เป็นสัญลักษณ์สำคัญของจังหวัด และเป็นสถานที่ศักดิ์สิทธิ์ที่ประชาชนให้ความเคารพศรัทธาอย่างมาก",
     advice: "ขอให้หลวงพ่อใหญ่คุ้มครอง ปกปักรักษา และประทานพรให้สำเร็จสมหวัง",
     images: ['18afe10a93654d35aac306496f1023a9.jpg', '1i6182224qqqo3beo6BD0_W_640_0_R5_Q80.jpg', '1i6702215andi0k8w3681_W_640_0_R5_Q80.jpg'],
@@ -59,6 +63,7 @@ const FORTUNES = [
     num: 5,
     title: "วัดบ้านสนามชัย",
     level: 4,
+    fortuneAspect: { icon: "🏠", label: "ครอบครัว & สุขภาพ", desc: "เด่นด้านความสุขในครอบครัว สุขภาพแข็งแรง และความสงบในชีวิต เป็นศูนย์รวมจิตใจของชาวชุมชน" },
     text: "<b>ก่อตั้ง:</b> คาดว่าสร้างขึ้นในช่วงปลายสมัยรัตนโกสินทร์ตอนต้น ประมาณ พ.ศ. 2400–2450<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่อุดมทรัพย์ อุตฺตมธโน<br><br><b>สิ่งน่าสนใจ:</b> พระอุโบสถแบบอีสาน ศิลปกรรมพื้นถิ่น และบรรยากาศวัดชนบทที่เงียบสงบ<br><br><b>ประวัติโดยย่อ:</b> วัดบ้านสนามชัยเป็นวัดสำคัญของชุมชนในอำเภอธวัชบุรี จังหวัดร้อยเอ็ด มีบทบาทเป็นศูนย์รวมจิตใจของชาวบ้าน และเป็นสถานที่ประกอบพิธีกรรมทางพุทธศาสนา รวมถึงงานบุญประเพณีท้องถิ่นของชาวอีสาน",
     advice: "สัมผัสความสงบและสืบสานประเพณีพื้นถิ่นเพื่อเป็นสิริมงคล",
     images: ['images-2.jpeg', 'images.jpeg', 'o4BxAoJCNeiE9tFtXgIAOtEUJmgf9rj0ABdEKD~tplv-sdweummd6v-text-logo-v1-QGRyZWFtbWllLnNw-q75.jpeg'],
@@ -72,6 +77,7 @@ const FORTUNES = [
     num: 6,
     title: "วัดท่าสะแบง",
     level: 5,
+    fortuneAspect: { icon: "💰", label: "โชคลาภ & ค้าขาย", desc: "เด่นด้านโชคลาภ การค้าขาย และวิทยาคมอาคม มีชื่อเสียงด้านเมตตามหานิยม เหมาะสำหรับผู้ทำธุรกิจและต้องการโชค" },
     text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2450–2470<br><b>เกจิอาจารย์ชื่อดัง:</b> พระราชวัชราวิทยาคม (อนุสรณ์ ปภสฺสโร)<br><br><b>สิ่งน่าสนใจ:</b> พระอุโบสถศิลปะอีสาน พระพุทธรูปเก่าแก่ และบรรยากาศริมชุมชนแบบดั้งเดิม<br><br><b>ประวัติโดยย่อ:</b> วัดท่าสะแบงเป็นวัดเก่าแก่ของชุมชนในจังหวัดร้อยเอ็ด มีความสำคัญด้านศาสนาและวัฒนธรรมท้องถิ่น ใช้เป็นศูนย์กลางในการประกอบพิธีกรรม งานบุญประเพณี และกิจกรรมของชาวบ้านในพื้นที่มาอย่างยาวนาน ปัจจุบันมีชื่อเสียงอย่างมากจากบารมีของพระอาจารย์ต้อม",
     advice: "ทำบุญสืบสานประเพณี จะช่วยหนุนนำชีวิตให้เจริญรุ่งเรือง",
     images: ['1mi0p224x8vn0e2ejCFEC_W_640_0_R5_Q80.jpg_.jpeg', '1mi0t224x8vn1q71wBE58_W_640_0_R5_Q80.jpg_.jpeg', 'oIFetmAbnE4E9hHgBEQAQzRfRDFglFIDArQCao~tplv-sdweummd6v-text-logo-v1-QG1pbnRyYXN0b3J5-q75.jpeg', 'oIQtnnEEWAykN9QK9qRRCfgIDfENFBAVPCAmoQ~tplv-sdweummd6v-text-logo-v1-QG1pbnRyYXN0b3J5-q75.jpeg'],
@@ -85,6 +91,7 @@ const FORTUNES = [
     num: 7,
     title: "วัดป่าโนนสวรรค์",
     level: 4,
+    fortuneAspect: { icon: "✨", label: "ขับไล่เคราะห์ & ธรรมปัญญา", desc: "เด่นด้านขับไล่เคราะห์กรรม เสริมปัญญาธรรม และธรรมท้าวเวสสุวรรณ เหมาะสำหรับผู้ต้องการขจัดสิ่งชั่วร้าย" },
     text: "<b>ก่อตั้ง:</b> ประมาณ พ.ศ. 2500<br><b>เกจิอาจารย์ชื่อดัง:</b> หลวงปู่คำปั่น จันทฺโชโต<br><br><b>สิ่งน่าสนใจ:</b> หรือที่รู้จักกันในชื่อ \"วัดหม้อดิน\" โดดเด่นด้วยประติมากรรมปูนปั้นแฝงธรรมะขนาดใหญ่ และการนำหม้อดินมาประดับตกแต่งศาสนสถานอย่างวิจิตรงดงาม<br><br><b>ประวัติโดยย่อ:</b> วัดป่าโนนสวรรค์เป็นพุทธสถานที่มีเอกลักษณ์เฉพาะตัว สร้างขึ้นจากแรงศรัทธาและนิมิตของหลวงปู่คำปั่น โดยมุ่งเน้นการสอนธรรมะผ่านงานศิลปะและสถาปัตยกรรมที่แปลกตา เป็นทั้งสถานที่ปฏิบัติธรรมและแหล่งท่องเที่ยวทางวัฒนธรรมที่สำคัญของจังหวัดร้อยเอ็ด",
     advice: "เรียนรู้ธรรมะผ่านศิลปะ เพื่อยกระดับจิตใจให้สูงขึ้น",
     images: ['001.jpg', '006.jpg', '20180402d41d8cd98f00b204e9800998ecf8427e103217.jpg', 'a-colourful-and-fanciful.jpg'],
@@ -651,6 +658,9 @@ btnToggleMonk.addEventListener('click', () => {
     if (fortune.monkTitle) $('sheetTitle').textContent = fortune.monkTitle;
     if (fortune.monkText) $('sheetText').innerHTML = fortune.monkText;
     if (fortune.monkAdvice) $('sheetAdvice').textContent = `💡 ${fortune.monkAdvice}`;
+    // Hide aspect badge in monk view
+    const sheetAspectMonk = $('sheetFortuneAspect');
+    if (sheetAspectMonk) sheetAspectMonk.style.display = 'none';
     renderGallery(currentTempleNum, true, fortune.monkImages || fortune.images);
   } else {
     currentMonk.visible = false;
@@ -667,6 +677,12 @@ btnToggleMonk.addEventListener('click', () => {
     $('sheetTitle').textContent = fortune.title;
     $('sheetText').innerHTML = fortune.text;
     $('sheetAdvice').textContent = `💡 ${fortune.advice}`;
+    // Show fortune aspect badge again when switching back to temple
+    const sheetAspect = $('sheetFortuneAspect');
+    if (sheetAspect && fortune.fortuneAspect) {
+      sheetAspect.innerHTML = `<span class="aspect-icon">${fortune.fortuneAspect.icon}</span><div class="aspect-body"><span class="aspect-label">${fortune.fortuneAspect.label}</span><span class="aspect-desc">${fortune.fortuneAspect.desc}</span></div>`;
+      sheetAspect.style.display = 'flex';
+    }
     renderGallery(currentTempleNum, false, fortune.images);
   }
 });
@@ -718,6 +734,12 @@ function showTempleModel(num, fortune) {
   $('sheetTitle').textContent = fortune.title;
   $('sheetText').innerHTML = fortune.text;
   $('sheetAdvice').textContent = `💡 ${fortune.advice}`;
+  // Fortune aspect badge
+  const sheetAspect = $('sheetFortuneAspect');
+  if (sheetAspect && fortune.fortuneAspect) {
+    sheetAspect.innerHTML = `<span class="aspect-icon">${fortune.fortuneAspect.icon}</span><div class="aspect-body"><span class="aspect-label">${fortune.fortuneAspect.label}</span><span class="aspect-desc">${fortune.fortuneAspect.desc}</span></div>`;
+    sheetAspect.style.display = 'flex';
+  }
 
   // Populate Gallery
   renderGallery(num, false, fortune.images);

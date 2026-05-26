@@ -1203,6 +1203,15 @@ body.ar-mode #arHint { display: block; }
   padding-bottom: 20px;
   max-height: 40vh;
   overflow-y: auto;
+  justify-items: center;
+}
+
+/* Center single image when it's the only item */
+.gallery-grid img:only-child,
+.gallery-grid > *:only-child {
+  grid-column: 1 / -1;
+  max-width: 60%;
+  margin: 0 auto;
 }
 
 .gallery-grid img {
